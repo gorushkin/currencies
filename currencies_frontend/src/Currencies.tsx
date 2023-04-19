@@ -1,19 +1,24 @@
-import { Container, Typography, Button, ButtonGroup } from '@mui/material';
+import { Typography, Button, ButtonGroup } from '@mui/material';
 import { Currency } from './constants';
+import { memo } from 'react';
 
-export const Currencies = ({
-  activeCurrency: activeItem,
-  onClick,
-  title,
-}: {
-  activeCurrency: any;
-  onClick: (item: Currency) => void;
-  title: string;
-}) => {
-  return (
-    <Container>
+export const Currencies = memo(
+  ({
+    activeCurrency: activeItem,
+    onClick,
+    title,
+  }: {
+    activeCurrency: any;
+    onClick: (item: Currency) => void;
+    title: string;
+  }) => (
+    <div className='currencies'>
       <Typography variant='subtitle1'>{title}</Typography>
-      <ButtonGroup variant='contained' aria-label='outlined primary button group'>
+      <ButtonGroup
+        className='button_group'
+        variant='contained'
+        aria-label='outlined primary button group'
+      >
         {Object.values(Currency).map((item) => {
           const color = item === activeItem ? 'success' : 'info';
           return (
@@ -23,6 +28,6 @@ export const Currencies = ({
           );
         })}
       </ButtonGroup>
-    </Container>
-  );
-};
+    </div>
+  )
+);
