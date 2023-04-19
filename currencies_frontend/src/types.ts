@@ -1,34 +1,36 @@
 import { Dayjs } from 'dayjs';
 
-export type ActiveInput = 'date' | 'amount';
+export type InputName = 'date' | 'amount';
 
 export type Mode = 'inputDate' | 'inputAmount' | 'submit';
 
 export type ValuesState = {
   amount: { value: string; isValid: boolean };
-  date: { value: Dayjs; isValid: boolean };
+  date: { value: Dayjs | null; isValid: boolean };
 };
 
-export type Values<T> = { value: T; name: string; isValid: boolean };
-
-export type ValueHanlder = ({
+export type OnChange<T> = ({
   value,
   name,
   isValid,
 }: {
-  value: string | Dayjs;
-  name: string;
+  value: T;
+  name: InputName;
   isValid: boolean;
 }) => void;
 
 export type InputType<T> = ({
-  value,
-  isValid,
   onChange,
   isActive,
+  value,
+  isValid,
+  onClick,
 }: {
-  value: T;
   isActive: boolean;
+  value: T;
+  onChange: OnChange<T>;
+  onClick: React.Dispatch<React.SetStateAction<InputName>>;
   isValid: boolean;
-  onChange: ({ value, name }: Values<T>) => void;
 }) => JSX.Element;
+
+export type Context = { width: number; setWidth: React.Dispatch<React.SetStateAction<number>> };

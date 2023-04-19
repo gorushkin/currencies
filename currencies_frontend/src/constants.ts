@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import { ValuesState } from './types';
 
 export enum Currency {
   RUB = 'RUB',
@@ -8,7 +8,7 @@ export enum Currency {
   EUR = 'EUR',
 }
 
-export const initState = {
+export const initState: ValuesState = {
   amount: { value: '', isValid: false },
-  date: { value: dayjs(), isValid: false },
-}
+  date: { value: null, isValid: true },
+};

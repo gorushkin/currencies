@@ -1,5 +1,5 @@
 import { DatePicker } from '@mui/x-date-pickers';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 import { InputType } from './types';
 import { useEffect, useRef } from 'react';
 
@@ -16,15 +16,14 @@ import { useEffect, useRef } from 'react';
   NonNullable<string | null>
 */
 
-export const DateInput: InputType<Dayjs> = ({ value, onChange, isActive }) => {
+export const DateInput: InputType<Dayjs | null> = ({ value, onChange, isActive, onClick }) => {
+  const input = useRef<HTMLInputElement>(null);
+
   const handleChange = (event: Dayjs | null) => {
     if (!event) return;
-    const isValueValid = dayjs(event).isValid();
-    console.log('isValueValid: ', isValueValid);
-    onChange({ value: event, name: 'date', isValid: isValueValid });
+    const isInputValid = event.isValid();
+    onChange({ isValid: isInputValid, value: event, name: 'date' });
   };
-
-  const input = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!input.current || !isActive) return;

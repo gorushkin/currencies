@@ -1,33 +1,41 @@
-import { Typography, Button, ButtonGroup } from '@mui/material';
+import { useState, useCallback, useRef, useLayoutEffect } from 'react';
+import { CurrencySelector } from './CurrencySelector';
 import { Currency } from './constants';
-import { memo } from 'react';
+import { cn } from './utils';
+import { useExportContext } from './AppContext';
 
-export const Currencies = memo(
-  ({
-    activeCurrency: activeItem,
-    onClick,
-    title,
-  }: {
-    activeCurrency: any;
-    onClick: (item: Currency) => void;
-    title: string;
-  }) => (
-    <div className='currencies'>
-      <Typography variant='subtitle1'>{title}</Typography>
-      <ButtonGroup
-        className='button_group'
-        variant='contained'
-        aria-label='outlined primary button group'
-      >
-        {Object.values(Currency).map((item) => {
-          const color = item === activeItem ? 'success' : 'info';
-          return (
-            <Button onClick={() => onClick(item)} color={color} key={item}>
-              {item}
-            </Button>
-          );
-        })}
-      </ButtonGroup>
-    </div>
-  )
-);
+export const Currencies = () => {
+  const [activeCurrency, setActiveCurrency] = useState(Currency.RUB);
+  const [targetCurrency, setTargetCurrency] = useState(Currency.USD);
+
+  const currencyRef = useRef<HTMLDivElement>(null);
+
+  const { setWidth } = useExportContext();
+
+  useLayoutEffect(() => {
+    if (!currencyRef.current) return;
+    const width = currencyRef.current.offsetWidth;
+    setWidth(width);
+  }, []);
+
+  const handleActiveCurrencyClick = useCallback((item: Currency) => setActiveCurrency(item), []);
+  const handleTargetCurrencyClick = useCallback((item: Currency) => setTargetCurrency(item), []);
+  return (
+    <>
+      <div ref={currencyRef} className={cn('currency_wrapper', 'wrapper')}>
+        <CurrencySelector
+          title='Исходная валюта'
+          activeCurrency={activeCurrency}
+          onClick={handleActiveCurrencyClick}
+        />
+      </div>
+      <div className={cn('currency_wrapper', 'wrapper')}>
+        <CurrencySelector
+          title='Цель'
+          activeCurrency={targetCurrency}
+          onClick={handleTargetCurrencyClick}
+        />
+      </div>
+    </>
+  );
+};
