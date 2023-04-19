@@ -1,11 +1,11 @@
 import { Button } from '@mui/material';
 import { AmountInput } from './AmountInput';
 import { DateInput } from './DateInput';
-import { useForm } from './useForm';
-import { cn } from './utils';
-import { InputName } from './types';
 import { useEffect, useState } from 'react';
-import { useExportContext } from './AppContext';
+import { useExportContext } from '../../context/AppContext';
+import { useForm } from '../../hooks/useForm';
+import { InputName } from '../../types';
+import { cn } from '../../utils/utils';
 
 export const Form = () => {
   const [activeInput, setActiveInput] = useState<InputName>('date');
@@ -13,32 +13,20 @@ export const Form = () => {
 
   const {
     values: { amount, date },
-    handleSubmit: handleFormSubmit,
-    handleChange: handleValueChange,
+    handleSubmit,
+    handleChange,
   } = useForm();
 
   useEffect(() => {
     const onKeyPresHanlder = (event: KeyboardEvent) => {
       if (event.code !== 'Enter' && event.code !== 'NumpadEnter') return;
       if (activeInput === 'date' && date.isValid) setActiveInput('amount');
-      if (activeInput === 'amount' && date.isValid && amount.isValid) handleFormSubmit();
+      if (activeInput === 'amount' && date.isValid && amount.isValid) handleSubmit();
     };
 
     document.addEventListener('keypress', onKeyPresHanlder);
     return () => document.removeEventListener('keypress', onKeyPresHanlder);
   }, [amount, date, activeInput]);
-
-  const handleChange = <T,>({
-    name,
-    value,
-    isValid,
-  }: {
-    value: T;
-    name: string;
-    isValid: boolean;
-  }) => {
-    handleValueChange({ value, name, isValid });
-  };
 
   return (
     <form>
@@ -63,7 +51,7 @@ export const Form = () => {
       <div style={{ width: `${width}px` }} className={cn('input_wrapper', 'wrapper')}>
         <Button
           disabled={!amount.isValid || !date.isValid}
-          onClick={handleFormSubmit}
+          onClick={handleSubmit}
           variant='outlined'
           color='primary'
           className='submit_button'

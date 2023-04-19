@@ -1,4 +1,4 @@
-import { ValuesState } from './types';
+import { ValuesState } from '../types';
 
 export enum Currency {
   RUB = 'RUB',

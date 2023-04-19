@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material';
-import { InputType } from './types';
 import { useEffect, useRef } from 'react';
-import { cn } from './utils';
+import { InputType } from '../../types';
+import { cn } from '../../utils/utils';
 
 export const AmountInput: InputType<string> = ({ value, onChange, isValid, isActive }) => {
   const input = useRef<HTMLInputElement>(null);

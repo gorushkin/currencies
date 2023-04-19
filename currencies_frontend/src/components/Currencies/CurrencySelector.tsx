@@ -1,5 +1,5 @@
 import { Typography, Button, ButtonGroup } from '@mui/material';
-import { Currency } from './constants';
+import { Currency } from '../../utils/constants';
 import { memo } from 'react';
 
 export const CurrencySelector = memo(

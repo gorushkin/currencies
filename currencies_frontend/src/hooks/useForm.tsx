@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { initState } from './constants';
-import { ValuesState } from './types';
+import { initState } from '../utils/constants';
+import { ValuesState } from '../types';
 
 export const useForm = () => {
   const [values, setValues] = useState<ValuesState>(initState);

@@ -1,11 +1,11 @@
 import './App.scss';
 import { Container } from '@mui/material';
-import { cn } from './utils';
+import { cn } from './utils/utils';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Form } from './Form';
-import { Currencies } from './Currencies';
-import { AppContextProvider } from './AppContext';
+import { AppContextProvider } from './context/AppContext';
+import { Currencies } from './components/Currencies/Currencies';
+import { Form } from './components/Form/Form';
 
 function App() {
   return (

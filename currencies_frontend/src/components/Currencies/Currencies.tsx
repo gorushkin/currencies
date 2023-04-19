@@ -1,8 +1,8 @@
 import { useState, useCallback, useRef, useLayoutEffect } from 'react';
 import { CurrencySelector } from './CurrencySelector';
-import { Currency } from './constants';
-import { cn } from './utils';
-import { useExportContext } from './AppContext';
+import { Currency } from '../../utils/constants';
+import { cn } from '../../utils/utils';
+import { useExportContext } from '../../context/AppContext';
 
 export const Currencies = () => {
   const [activeCurrency, setActiveCurrency] = useState(Currency.RUB);

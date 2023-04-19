@@ -1,5 +1,5 @@
 import { ReactElement, createContext, useContext, useMemo, useState } from 'react';
-import { Context } from './types';
+import { Context } from '../types';
 
 const AppContext = createContext<Context | null>(null);
 
