@@ -1,8 +1,8 @@
 import { getRateRequest } from '../api/api';
 import convert from 'xml-js';
-import { Currencies, CurResponse } from '../utils/types';
+import { Currencies, CurResponse, Rate } from '../utils/types';
 import AppError from '../utils/errorHandling';
-import { currenciesList, errorText } from '../utils/constants';
+import { currenciesList, errorText, rub } from '../utils/constants';
 
 const convertStringToNumber = (str: string) => parseFloat(str.replace(',', '.'));
 
@@ -19,17 +19,25 @@ export const getRate = async (date: string) => {
   if (parsedData.ValCurs?._text === errorText) throw new AppError(400, 'there is an error with date format');
 
   const valutes = parsedData.ValCurs.Valute;
-  const currencies = valutes.reduce<Currencies>((acc, item) => {
-    if (!currenciesList.includes(item.CharCode._text)) return acc;
 
-    return {
-      ...acc,
-      [item.CharCode._text]: {
-        name: item.Name._text,
-        value: getValue(item.Value._text, item.Nominal._text),
-        code: item.CharCode._text,
-      },
-    };
+  const rates = valutes
+    .filter((item) => currenciesList.includes(item.CharCode._text))
+    .map((item) => ({
+      code: item.CharCode._text,
+      rate: 1 / getValue(item.Value._text, item.Nominal._text),
+    }));
+
+  const withRubRates = [...rates, rub];
+  console.log(withRubRates);
+
+  const currencies = currenciesList.reduce<Currencies>((acc, item) => {
+    const fromRate = withRubRates.find((rate) => rate.code === item) as Rate;
+    if (!fromRate) return acc;
+    const toRates = withRubRates
+      .filter((rate) => rate.code !== item)
+      .map((rate) => ({ code: rate.code, rate: rate.rate / fromRate.rate }));
+    return { ...acc, [fromRate.code]: toRates };
   }, {} as Currencies);
+
   return currencies;
 };

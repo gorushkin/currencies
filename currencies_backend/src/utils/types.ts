@@ -26,16 +26,9 @@ export interface CurResponse {
   };
 }
 
-export type Currencies = Record<
-  Currency,
-  {
-    name: string;
-    value: number;
-    _nominal: number;
-    code: Currency;
-    _value: number;
-    convertedValue: number;
-  }
->;
+export type Rate = {
+  code: Currency;
+  rate: number;
+};
 
-export type Rates = Record<string, Currencies>;
+export type Currencies = Record<Currency, Rate[]>;
