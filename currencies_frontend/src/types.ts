@@ -1,4 +1,5 @@
 import { Dayjs } from 'dayjs';
+import { Currency } from './utils/constants';
 
 export type InputName = 'date' | 'amount';
 
@@ -33,4 +34,34 @@ export type InputType<T> = ({
   isValid: boolean;
 }) => JSX.Element;
 
-export type Context = { width: number; setWidth: React.Dispatch<React.SetStateAction<number>> };
+export type CurrenciesStateType = { from: Currency; to: Currency };
+
+export type HandleChangeType = <T>({
+  name,
+  value,
+  isValid,
+}: {
+  name: string;
+  value: T;
+  isValid: boolean;
+}) => void;
+
+export type HandleClickType = (type: 'to' | 'from') => (item: Currency) => void
+
+export type Context = {
+  width: number;
+  currencies: CurrenciesStateType;
+  handleClick: HandleClickType;
+  updateWidth: (width: number) => void;
+  updateRates: (rates: CurrencyRates) => void;
+  rates: CurrencyRates;
+  values: ValuesState;
+  handleChange: HandleChangeType;
+};
+
+export type Rate = {
+  code: Currency;
+  rate: number;
+};
+
+export type CurrencyRates = Record<Currency, Rate[]> | null;
