@@ -1,13 +1,17 @@
-import { Dayjs } from 'dayjs';
 import { Currency } from './utils/constants';
 
 export type InputName = 'date' | 'amount';
 
 export type Mode = 'inputDate' | 'inputAmount' | 'submit';
 
-export type ValuesState = {
+export type Values = {
   amount: { value: string; isValid: boolean };
   date: { value: string; isValid: boolean };
+};
+
+export type ResultValues = {
+  amount: string;
+  date: string;
 };
 
 export type OnChange<T> = ({
@@ -46,7 +50,7 @@ export type HandleChangeType = <T>({
   isValid: boolean;
 }) => void;
 
-export type HandleClickType = (type: 'to' | 'from') => (item: Currency) => void
+export type HandleClickType = (type: 'to' | 'from') => (item: Currency) => void;
 
 export type Context = {
   width: number;
@@ -55,8 +59,10 @@ export type Context = {
   updateWidth: (width: number) => void;
   updateRates: (rates: CurrencyRates) => void;
   rates: CurrencyRates;
-  values: ValuesState;
+  values: Values;
   handleChange: HandleChangeType;
+  resultValues: ResultValues;
+  updateResultValues: (values: ResultValues) => void;
 };
 
 export type Rate = {

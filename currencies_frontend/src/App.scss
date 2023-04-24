@@ -75,3 +75,15 @@
   height: 60px;
   font-size: 2rem;
 }
+
+
+.result_values {
+  display: flex;
+  font-size: 2rem;
+  justify-content: space-between;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;;
+}
+
+.result__label {
+  margin-right: 1rem;
+}
