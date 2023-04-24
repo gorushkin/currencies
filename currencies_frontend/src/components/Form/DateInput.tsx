@@ -29,13 +29,14 @@ export const DateInput: InputType<string> = ({ value, onChange, isActive, isVali
   };
 
   useEffect(() => {
+    console.log(isValid);
     if (!input.current || !isActive) return;
     input.current.focus();
   }, [isActive]);
 
   return (
     <TextField
-      label='Amount'
+      label='Date'
       inputProps={{
         style: { fontSize: '3rem', textAlign: 'center', padding: '0px 14px', height: '60px' },
       }}
@@ -46,6 +47,7 @@ export const DateInput: InputType<string> = ({ value, onChange, isActive, isVali
       value={value}
       onChange={handleChange}
       inputRef={input}
+      placeholder="DD/MM/YYYY"
     />
   );
 };
