@@ -3,19 +3,25 @@ import { AmountInput } from './AmountInput';
 import { DateInput } from './DateInput';
 import { useEffect, useState } from 'react';
 import { useExportContext } from '../../context/AppContext';
-import { useForm } from '../../hooks/useForm';
 import { InputName } from '../../types';
 import { cn } from '../../utils/utils';
+import { getRatesRequest } from '../../api/api';
 
 export const Form = () => {
   const [activeInput, setActiveInput] = useState<InputName>('date');
-  const { width } = useExportContext();
-
   const {
+    width,
     values: { amount, date },
-    handleSubmit,
     handleChange,
-  } = useForm();
+    updateRates,
+  } = useExportContext();
+
+  const handleSubmit = async () => {
+    if (!date.value) return;
+    const formattedDate = date.value.format('DD/MM/YYYY');
+    const { rates } = await getRatesRequest(formattedDate);
+    updateRates(rates);
+  };
 
   useEffect(() => {
     const onKeyPresHanlder = (event: KeyboardEvent) => {
