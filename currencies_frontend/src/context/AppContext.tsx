@@ -3,9 +3,10 @@ import {
   Context,
   CurrencyRates,
   CurrenciesStateType,
-  ValuesState,
+  Values,
   HandleChangeType,
   HandleClickType,
+  ResultValues,
 } from '../types';
 import { Currency, initState } from '../utils/constants';
 
@@ -21,7 +22,8 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
 
   const [rates, setRates] = useState<CurrencyRates>(null);
 
-  const [values, setValues] = useState<ValuesState>(initState);
+  const [values, setValues] = useState<Values>(initState);
+  const [resultValues, setResultValues] = useState<ResultValues>({ amount: '', date: '' });
 
   const handleClick: HandleClickType = useCallback(
     (type) => (item) => setCurrencies((state) => ({ ...state, [type]: item })),
@@ -30,7 +32,12 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
 
   const updateWidth = useCallback((width: number) => setWidth(width), []);
 
-  const updateRates = useCallback((rates: CurrencyRates) => setRates(rates), []);
+  const updateRates = useCallback((rates: CurrencyRates) => {
+    setRates(rates);
+    setResultValues({ amount: values.amount.value, date: values.date.value });
+  }, [values]);
+
+  const updateResultValues = useCallback((values: ResultValues) => setResultValues(values), []);
 
   const handleChange: HandleChangeType = useCallback(({ name, value, isValid }) => {
     setValues((state) => ({ ...state, [name]: { value, isValid } }));
@@ -46,8 +53,10 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
       updateRates,
       values,
       handleChange,
+      resultValues,
+      updateResultValues,
     }),
-    [width, currencies, rates, values]
+    [width, currencies, rates, values, resultValues]
   );
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;
