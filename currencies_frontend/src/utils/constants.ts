@@ -10,5 +10,5 @@ export enum Currency {
 
 export const initState: ValuesState = {
   amount: { value: '', isValid: false },
-  date: { value: null, isValid: true },
+  date: { value: '', isValid: true },
 };

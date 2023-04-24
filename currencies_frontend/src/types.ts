@@ -7,7 +7,7 @@ export type Mode = 'inputDate' | 'inputAmount' | 'submit';
 
 export type ValuesState = {
   amount: { value: string; isValid: boolean };
-  date: { value: Dayjs | null; isValid: boolean };
+  date: { value: string; isValid: boolean };
 };
 
 export type OnChange<T> = ({

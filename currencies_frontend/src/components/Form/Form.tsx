@@ -17,9 +17,7 @@ export const Form = () => {
   } = useExportContext();
 
   const handleSubmit = async () => {
-    if (!date.value) return;
-    const formattedDate = date.value.format('DD/MM/YYYY');
-    const { rates } = await getRatesRequest(formattedDate);
+    const { rates } = await getRatesRequest(date.value);
     updateRates(rates);
   };
 
