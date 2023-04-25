@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 app.post(
-  '/',
+  '/api',
   errorHandler(async (req, res) => onRateHandler(req, res)),
 );
 
