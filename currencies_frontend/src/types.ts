@@ -71,3 +71,5 @@ export type Rate = {
 };
 
 export type CurrencyRates = Record<Currency, Rate[]> | null;
+
+export type MODE = 'production' | 'development'
