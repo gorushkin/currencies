@@ -3,7 +3,7 @@ import { CurrencyRates } from '../types';
 import { config } from '../utils/config';
 
 const instance = axios.create({
-  baseURL: config.BASE_URL,
+  baseURL: config.BASE_URL.ORIGIN + config.BASE_URL.API_BASE_URL,
 });
 
 export const getRatesRequest = async (date: string) => {

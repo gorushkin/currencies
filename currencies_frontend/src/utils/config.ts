@@ -2,9 +2,24 @@ import { MODE } from '../types';
 
 const mode: MODE = (import.meta.env.MODE as MODE) || 'production';
 
-const urlMapping: Record<MODE, string> = {
-  development: 'http://127.0.0.1:3000',
-  production: 'http://46.19.64.117/currencies/api',
+interface Config {
+  API_BASE_URL: string;
+  ORIGIN: string;
+}
+
+const development = {
+  API_BASE_URL: '/api',
+  ORIGIN: 'http://localhost:3000',
+};
+
+const production = {
+  API_BASE_URL: '/api',
+  ORIGIN: 'https://api.gorushkin.com/currencies',
+};
+
+const urlMapping: Record<MODE, Config> = {
+  development,
+  production,
 };
 
 const BASE_URL = urlMapping[mode];
