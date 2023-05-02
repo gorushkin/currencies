@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { CurrencyRates } from '../types';
-
-const baseURL = 'http://127.0.0.1:3000';
+import { config } from '../utils/config';
 
 const instance = axios.create({
-  baseURL,
+  baseURL: config.BASE_URL,
 });
 
 export const getRatesRequest = async (date: string) => {
