@@ -22,14 +22,14 @@ export const Form = () => {
   };
 
   useEffect(() => {
-    const onKeyPresHanlder = (event: KeyboardEvent) => {
+    const onKeyPresHandler = (event: KeyboardEvent) => {
       if (event.code !== 'Enter' && event.code !== 'NumpadEnter') return;
       if (activeInput === 'date' && date.isValid) setActiveInput('amount');
       if (activeInput === 'amount' && date.isValid && amount.isValid) handleSubmit();
     };
 
-    document.addEventListener('keypress', onKeyPresHanlder);
-    return () => document.removeEventListener('keypress', onKeyPresHanlder);
+    document.addEventListener('keypress', onKeyPresHandler);
+    return () => document.removeEventListener('keypress', onKeyPresHandler);
   }, [amount, date, activeInput]);
 
   return (

@@ -38,7 +38,9 @@ export type InputType<T> = ({
   isValid: boolean;
 }) => JSX.Element;
 
-export type CurrenciesStateType = { from: Currency; to: Currency };
+export type Name = 'from' | 'to';
+
+export type CurrenciesStateType = Record<Name, Currency>;
 
 export type HandleChangeType = <T>({
   name,
@@ -52,18 +54,7 @@ export type HandleChangeType = <T>({
 
 export type HandleClickType = (type: 'to' | 'from') => (item: Currency) => void;
 
-export type Context = {
-  width: number;
-  currencies: CurrenciesStateType;
-  handleClick: HandleClickType;
-  updateWidth: (width: number) => void;
-  updateRates: (rates: CurrencyRates) => void;
-  rates: CurrencyRates;
-  values: Values;
-  handleChange: HandleChangeType;
-  resultValues: ResultValues;
-  updateResultValues: (values: ResultValues) => void;
-};
+export type SelectorCurrency = { item: Currency; disabled: boolean };
 
 export type Rate = {
   code: Currency;

@@ -1,4 +1,4 @@
-import { Values } from '../types';
+import { CurrenciesStateType, Values } from '../types';
 
 export enum Currency {
   RUB = 'RUB',
@@ -11,4 +11,9 @@ export enum Currency {
 export const initState: Values = {
   amount: { value: '', isValid: false },
   date: { value: '', isValid: false },
+};
+
+export const initCurrenciesSate: CurrenciesStateType = {
+  from: Currency.RUB,
+  to: Currency.USD,
 };
