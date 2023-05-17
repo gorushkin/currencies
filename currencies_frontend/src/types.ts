@@ -36,7 +36,7 @@ export type InputType<T> = ({
   onChange: OnChange<T>;
   onClick: React.Dispatch<React.SetStateAction<InputName>>;
   isValid: boolean;
-}) => React.JSX.Element;
+}) => JSX.Element;
 
 export type Name = 'from' | 'to';
 
