@@ -28,7 +28,6 @@ export const DateInput: InputType<string> = ({ value, onChange, isActive, isVali
   };
 
   useEffect(() => {
-    console.log(isValid);
     if (!input.current || !isActive) return;
     input.current.focus();
   }, [isActive]);

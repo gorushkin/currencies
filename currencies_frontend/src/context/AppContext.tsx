@@ -2,25 +2,24 @@ import { ReactElement, createContext, useContext, useMemo, useState, useCallback
 import {
   CurrencyRates,
   CurrenciesStateType,
-  Values,
-  HandleChangeType,
   HandleClickType,
   ResultValues,
   SelectorCurrency,
   Name,
 } from '../types';
-import { Currency, initCurrenciesSate, initState } from '../utils/constants';
+import { Currency, initCurrenciesSate } from '../utils/constants';
 import { resetCurrencies } from '../utils/utils';
+import { getRatesRequest } from '../api/api';
+
+type HandleSubmit = ({ date, amount }: { date: string; amount: string }) => void;
 
 export type Context = {
   width: number;
   currencies: CurrenciesStateType;
   handleClick: HandleClickType;
   updateWidth: (width: number) => void;
-  updateRates: (rates: CurrencyRates) => void;
+  handleSubmit: HandleSubmit;
   rates: CurrencyRates;
-  values: Values;
-  handleChange: HandleChangeType;
   resultValues: ResultValues;
   updateResultValues: (values: ResultValues) => void;
   selectorCurrencies: SelectorCurrency[];
@@ -39,7 +38,6 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
 
   const [rates, setRates] = useState<CurrencyRates>(null);
 
-  const [values, setValues] = useState<Values>(initState);
   const [resultValues, setResultValues] = useState<ResultValues>({ amount: '', date: '' });
 
   const handleClick: HandleClickType = useCallback(
@@ -50,9 +48,9 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
   const updateWidth = useCallback((width: number) => setWidth(width), []);
 
   const updateRates = useCallback(
-    (rates: CurrencyRates) => {
+    (rates: CurrencyRates, amount: string, date: string) => {
       setRates(rates);
-      setResultValues({ amount: values.amount.value, date: values.date.value });
+      setResultValues({ amount, date });
       if (!rates) return;
       const resultRates = Object.keys(rates) as Currency[];
 
@@ -72,14 +70,18 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
         }))
       );
     },
-    [values]
+    [currencies]
+  );
+
+  const handleSubmit: HandleSubmit = useCallback(
+    async ({ amount, date }) => {
+      const { rates } = await getRatesRequest(date, amount);
+      updateRates(rates, amount, date);
+    },
+    [updateRates]
   );
 
   const updateResultValues = useCallback((values: ResultValues) => setResultValues(values), []);
-
-  const handleChange: HandleChangeType = useCallback(({ name, value, isValid }) => {
-    setValues((state) => ({ ...state, [name]: { value, isValid } }));
-  }, []);
 
   const context = useMemo(
     () => ({
@@ -88,14 +90,22 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
       handleClick,
       updateWidth,
       rates,
-      updateRates,
-      values,
-      handleChange,
-      resultValues,
+      handleSubmit,
       updateResultValues,
       selectorCurrencies,
+      resultValues,
     }),
-    [width, currencies, rates, values, resultValues, selectorCurrencies]
+    [
+      width,
+      currencies,
+      handleClick,
+      updateWidth,
+      rates,
+      handleSubmit,
+      updateResultValues,
+      selectorCurrencies,
+      resultValues,
+    ]
   );
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;

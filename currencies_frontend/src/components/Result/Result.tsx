@@ -1,7 +1,7 @@
 import { useExportContext } from '../../context/AppContext';
 
 export const Result = () => {
-  const { currencies, rates, values, resultValues, width } = useExportContext();
+  const { currencies, rates, resultValues } = useExportContext();
 
   if (!rates) return null;
 
@@ -21,9 +21,7 @@ export const Result = () => {
         {rates[currencies.from].map((rate) => (
           <li key={rate.code}>
             <div className='result__label'>{rate.code}</div>
-            <div className='result__value'>
-              {(rate.rate * Number(values.amount.value)).toFixed(4)}
-            </div>
+            <div className='result__value'>{rate.amount}</div>
           </li>
         ))}
       </ul>

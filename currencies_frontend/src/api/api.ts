@@ -6,9 +6,9 @@ const instance = axios.create({
   baseURL: config.BASE_URL.ORIGIN + config.BASE_URL.API_BASE_URL,
 });
 
-export const getRatesRequest = async (date: string) => {
+export const getRatesRequest = async (date: string, amount: string) => {
   // TODO: add error handler
-  const { data } = (await instance.post('', { date })) as {
+  const { data } = (await instance.post('', { date, amount })) as {
     data: { date: string; rates: CurrencyRates };
   };
   return data;

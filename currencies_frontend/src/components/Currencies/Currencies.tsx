@@ -12,7 +12,7 @@ export const Currencies = () => {
     if (!currencyRef.current) return;
     const width = currencyRef.current.offsetWidth;
     updateWidth(width);
-  }, []);
+  }, [updateWidth]);
 
   return (
     <>

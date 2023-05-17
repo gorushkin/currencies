@@ -1,25 +1,24 @@
 import { Button } from '@mui/material';
 import { AmountInput } from './AmountInput';
 import { DateInput } from './DateInput';
-import { useEffect, useState } from 'react';
-import { useExportContext } from '../../context/AppContext';
-import { InputName } from '../../types';
+import { FC, memo, useCallback, useEffect, useState } from 'react';
+import { HandleChangeType, InputName, Values } from '../../types';
 import { cn } from '../../utils/utils';
-import { getRatesRequest } from '../../api/api';
+import { initState } from '../../utils/constants';
 
-export const Form = () => {
-  const [activeInput, setActiveInput] = useState<InputName>('date');
-  const {
-    width,
-    values: { amount, date },
-    handleChange,
-    updateRates,
-  } = useExportContext();
+interface FormProps {
+  onSubmit: ({ date, amount }: { date: string; amount: string }) => void;
+  width: number;
+}
 
-  const handleSubmit = async () => {
-    const { rates } = await getRatesRequest(date.value);
-    updateRates(rates);
-  };
+export const Form: FC<FormProps> = ({ onSubmit, width }) => {
+  const [activeInput, setActiveInput] = useState<InputName>('amount');
+  const [values, setValues] = useState<Values>(initState);
+  const { amount, date } = values;
+
+  const handleSubmit = useCallback(() => {
+    onSubmit({ amount: values.amount.value, date: values.date.value });
+  }, [onSubmit, values.amount.value, values.date.value]);
 
   useEffect(() => {
     const onKeyPresHandler = (event: KeyboardEvent) => {
@@ -30,7 +29,11 @@ export const Form = () => {
 
     document.addEventListener('keypress', onKeyPresHandler);
     return () => document.removeEventListener('keypress', onKeyPresHandler);
-  }, [amount, date, activeInput]);
+  }, [amount, date, activeInput, handleSubmit]);
+
+  const handleChange: HandleChangeType = useCallback(({ name, value, isValid }) => {
+    setValues((state) => ({ ...state, [name]: { value, isValid } }));
+  }, []);
 
   return (
     <form>
@@ -66,3 +69,5 @@ export const Form = () => {
     </form>
   );
 };
+
+export const WithMemo = memo(Form);
