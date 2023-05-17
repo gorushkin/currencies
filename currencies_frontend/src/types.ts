@@ -36,7 +36,7 @@ export type InputType<T> = ({
   onChange: OnChange<T>;
   onClick: React.Dispatch<React.SetStateAction<InputName>>;
   isValid: boolean;
-}) => JSX.Element;
+}) => React.JSX.Element;
 
 export type Name = 'from' | 'to';
 
@@ -59,8 +59,9 @@ export type SelectorCurrency = { item: Currency; disabled: boolean };
 export type Rate = {
   code: Currency;
   rate: number;
+  amount: number;
 };
 
 export type CurrencyRates = Record<Currency, Rate[]> | null;
 
-export type MODE = 'production' | 'development'
+export type MODE = 'production' | 'development';

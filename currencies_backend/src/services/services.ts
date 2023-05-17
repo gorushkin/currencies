@@ -10,7 +10,7 @@ const getValue = (value: string, nominal: string) => {
   return Number((convertStringToNumber(value) / convertStringToNumber(nominal)).toFixed(4));
 };
 
-export const getRate = async (date: string) => {
+export const getRate = async (date: string, amount: string) => {
   const { data, ok } = await getRateRequest(date);
   if (!ok) throw new AppError(500, 'Somethings went wrong!!!!');
 
@@ -28,14 +28,17 @@ export const getRate = async (date: string) => {
     }));
 
   const withRubRates = [...rates, rub];
-  console.log(withRubRates);
 
   const currencies = currenciesList.reduce<Currencies>((acc, item) => {
     const fromRate = withRubRates.find((rate) => rate.code === item) as Rate;
     if (!fromRate) return acc;
     const toRates = withRubRates
       .filter((rate) => rate.code !== item)
-      .map((rate) => ({ code: rate.code, rate: rate.rate / fromRate.rate }));
+      .map((rate) => ({
+        code: rate.code,
+        rate: rate.rate / fromRate.rate,
+        amount: (Number(amount) * rate.rate) / fromRate.rate,
+      }));
     return { ...acc, [fromRate.code]: toRates };
   }, {} as Currencies);
 

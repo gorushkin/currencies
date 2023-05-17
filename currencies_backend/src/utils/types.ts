@@ -29,6 +29,7 @@ export interface CurResponse {
 export type Rate = {
   code: Currency;
   rate: number;
+  amount: number
 };
 
 export type Currencies = Record<Currency, Rate[]>;

@@ -1,37 +1,55 @@
-import { ReactElement, createContext, useContext, useMemo, useState, useCallback } from 'react';
+import {
+  ReactElement,
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+} from 'react';
 import {
   CurrencyRates,
   CurrenciesStateType,
-  Values,
-  HandleChangeType,
   HandleClickType,
   ResultValues,
   SelectorCurrency,
   Name,
 } from '../types';
-import { Currency, initCurrenciesSate, initState } from '../utils/constants';
+import { Currency, initCurrenciesSate } from '../utils/constants';
 import { resetCurrencies } from '../utils/utils';
+import { getRatesRequest } from '../api/api';
+import { useLocalStorage } from '../hooks/useLocalStorage';
+
+type HandleSubmit = ({ date, amount }: { date: string; amount: string }) => void;
 
 export type Context = {
   width: number;
   currencies: CurrenciesStateType;
   handleClick: HandleClickType;
   updateWidth: (width: number) => void;
-  updateRates: (rates: CurrencyRates) => void;
+  handleSubmit: HandleSubmit;
   rates: CurrencyRates;
-  values: Values;
-  handleChange: HandleChangeType;
   resultValues: ResultValues;
   updateResultValues: (values: ResultValues) => void;
   selectorCurrencies: SelectorCurrency[];
+  isLoading: boolean;
 };
 
 const AppContext = createContext<Context | null>(null);
 
 const AppContextProvider = ({ children }: { children: ReactElement }) => {
   const [width, setWidth] = useState(0);
+  const { readSettings, saveSettings } = useLocalStorage<CurrenciesStateType>('settings');
+  const [isLoading, setIsLoading] = useState(true);
 
   const [currencies, setCurrencies] = useState<CurrenciesStateType>(initCurrenciesSate);
+
+  useLayoutEffect(() => {
+    const settings = readSettings() || initCurrenciesSate;
+    setIsLoading(false);
+    setCurrencies(settings);
+  }, [readSettings]);
 
   const [selectorCurrencies, setSelectorCurrencies] = useState<SelectorCurrency[]>(
     Object.values(Currency).map((item) => ({ item, disabled: false }))
@@ -39,20 +57,25 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
 
   const [rates, setRates] = useState<CurrencyRates>(null);
 
-  const [values, setValues] = useState<Values>(initState);
   const [resultValues, setResultValues] = useState<ResultValues>({ amount: '', date: '' });
 
   const handleClick: HandleClickType = useCallback(
-    (type) => (item) => setCurrencies((state) => ({ ...state, [type]: item })),
+    (type) => (item) => {
+      setCurrencies((state) => ({ ...state, [type]: item }));
+    },
     []
   );
+
+  useEffect(() => {
+    saveSettings(currencies);
+  }, [currencies, saveSettings]);
 
   const updateWidth = useCallback((width: number) => setWidth(width), []);
 
   const updateRates = useCallback(
-    (rates: CurrencyRates) => {
+    (rates: CurrencyRates, amount: string, date: string) => {
       setRates(rates);
-      setResultValues({ amount: values.amount.value, date: values.date.value });
+      setResultValues({ amount, date });
       if (!rates) return;
       const resultRates = Object.keys(rates) as Currency[];
 
@@ -72,14 +95,18 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
         }))
       );
     },
-    [values]
+    [currencies]
+  );
+
+  const handleSubmit: HandleSubmit = useCallback(
+    async ({ amount, date }) => {
+      const { rates } = await getRatesRequest(date, amount);
+      updateRates(rates, amount, date);
+    },
+    [updateRates]
   );
 
   const updateResultValues = useCallback((values: ResultValues) => setResultValues(values), []);
-
-  const handleChange: HandleChangeType = useCallback(({ name, value, isValid }) => {
-    setValues((state) => ({ ...state, [name]: { value, isValid } }));
-  }, []);
 
   const context = useMemo(
     () => ({
@@ -88,14 +115,24 @@ const AppContextProvider = ({ children }: { children: ReactElement }) => {
       handleClick,
       updateWidth,
       rates,
-      updateRates,
-      values,
-      handleChange,
-      resultValues,
+      handleSubmit,
       updateResultValues,
       selectorCurrencies,
+      resultValues,
+      isLoading,
     }),
-    [width, currencies, rates, values, resultValues, selectorCurrencies]
+    [
+      width,
+      currencies,
+      handleClick,
+      updateWidth,
+      rates,
+      handleSubmit,
+      updateResultValues,
+      selectorCurrencies,
+      resultValues,
+      isLoading,
+    ]
   );
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;

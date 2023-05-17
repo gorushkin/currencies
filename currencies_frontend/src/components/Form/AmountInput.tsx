@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material';
 import { useEffect, useRef } from 'react';
 import { InputType } from '../../types';
-import { cn } from '../../utils/utils';
+import styles from './Form.module.scss';
 
 export const AmountInput: InputType<string> = ({ value, onChange, isValid, isActive }) => {
   const input = useRef<HTMLInputElement>(null);
@@ -23,7 +23,7 @@ export const AmountInput: InputType<string> = ({ value, onChange, isValid, isAct
         style: { fontSize: '3rem', textAlign: 'center', padding: '0px 14px', height: '60px' },
       }}
       size='medium'
-      className={cn('input_amount')}
+      className={styles.input}
       error={!isValid}
       variant='outlined'
       value={value}
