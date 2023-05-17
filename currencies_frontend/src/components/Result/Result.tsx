@@ -1,27 +1,34 @@
 import { useExportContext } from '../../context/AppContext';
+import styles from './Result.module.scss';
 
 export const Result = () => {
   const { currencies, rates, resultValues } = useExportContext();
 
   if (!rates) return null;
+  if (!rates) return null;
+
+  const targetCurrency = rates[currencies.from].find((item) => item.code === currencies.to);
 
   return (
-    <div className='result__wrapper'>
-      <div className='result__values-wrapper'>
-        <div className='result__values'>
-          <span className='result__label'>Date:</span>
-          <span className='result__value'>{resultValues.date}</span>
+    <div className={styles.wrapper}>
+      <div className={styles.valuesWrapper}>
+        <div className={styles.values}>
+          <span className={styles.label}>Date:</span>
+          <span className={styles.values}>{resultValues.date}</span>
         </div>
-        <div className='result__values'>
-          <span className='result__label'>Amount:</span>
-          <span className='result__value'>{resultValues.amount}</span>
+        <div className={styles.values}>
+          <span className={styles.label}>Amount:</span>
+          <span className={styles.value}>
+            {resultValues.amount} {currencies.from} = {targetCurrency?.amount.toFixed(2)}{' '}
+            {currencies.to}
+          </span>
         </div>
       </div>
-      <ul className='result__list'>
+      <ul className={styles.list}>
         {rates[currencies.from].map((rate) => (
           <li key={rate.code}>
-            <div className='result__label'>{rate.code}</div>
-            <div className='result__value'>{rate.amount}</div>
+            <div className={styles.label}>{rate.code}</div>
+            <div className={styles.value}>{rate.amount}</div>
           </li>
         ))}
       </ul>

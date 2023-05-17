@@ -1,0 +1,49 @@
+.wrapper {
+  width: 500px;
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+}
+
+.valuesWrapper {
+  margin-bottom: 1rem;
+}
+
+.list {
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  color: rgba(0, 0, 0, 0.87);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+.values {
+  display: flex;
+  font-size: 2rem;
+  flex-direction: column;
+  justify-content: center;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  text-align: center;
+
+  &:first-of-type {
+    margin-bottom: 1rem;
+  }
+}
+
+.label {
+  font-size: 1rem;
+}

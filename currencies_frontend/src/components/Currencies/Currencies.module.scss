@@ -1,8 +1,8 @@
-.container {
+.currencies {
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  width: 100%;
 }
 
 .wrapper {

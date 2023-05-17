@@ -1,7 +1,7 @@
 import { useRef, useLayoutEffect } from 'react';
 import { CurrencySelector } from './CurrencySelector';
-import { cn } from '../../utils/utils';
 import { useExportContext } from '../../context/AppContext';
+import styles from './Currencies.module.scss';
 
 export const Currencies = () => {
   const currencyRef = useRef<HTMLDivElement>(null);
@@ -16,14 +16,14 @@ export const Currencies = () => {
 
   return (
     <>
-      <div ref={currencyRef} className={cn('currency_wrapper', 'wrapper')}>
+      <div ref={currencyRef} className={styles.wrapper}>
         <CurrencySelector
           title='From:'
           activeCurrency={currencies.from}
           onClick={handleClick('from')}
         />
       </div>
-      <div className={cn('currency_wrapper', 'wrapper')}>
+      <div className={styles.wrapper}>
         <CurrencySelector title='To:' activeCurrency={currencies.to} onClick={handleClick('to')} />
       </div>
     </>

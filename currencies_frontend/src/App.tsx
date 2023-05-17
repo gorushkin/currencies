@@ -8,7 +8,9 @@ import { WithMemo } from './components/Form/Form';
 import { Result } from './components/Result/Result';
 
 const App = () => {
-  const { width, handleSubmit } = useExportContext();
+  const { width, handleSubmit, isLoading } = useExportContext();
+
+  if (isLoading) return null;
 
   return (
     <div className={cn('container')}>

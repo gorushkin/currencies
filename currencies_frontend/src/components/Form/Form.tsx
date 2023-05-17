@@ -5,6 +5,7 @@ import { FC, memo, useCallback, useEffect, useState } from 'react';
 import { HandleChangeType, InputName, Values } from '../../types';
 import { cn } from '../../utils/utils';
 import { initState } from '../../utils/constants';
+import styles from './Form.module.scss';
 
 interface FormProps {
   onSubmit: ({ date, amount }: { date: string; amount: string }) => void;
@@ -61,7 +62,7 @@ export const Form: FC<FormProps> = ({ onSubmit, width }) => {
           onClick={handleSubmit}
           variant='outlined'
           color='primary'
-          className='submit_button'
+          className={styles.submitButton}
         >
           Submit
         </Button>

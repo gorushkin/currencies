@@ -2,6 +2,7 @@ import { Typography, Button, ButtonGroup } from '@mui/material';
 import { Currency } from '../../utils/constants';
 import { memo } from 'react';
 import { useExportContext } from '../../context/AppContext';
+import styles from './Currencies.module.scss';
 
 export const CurrencySelector = memo(
   ({
@@ -16,7 +17,7 @@ export const CurrencySelector = memo(
     const { selectorCurrencies } = useExportContext();
 
     return (
-      <div className='currencies'>
+      <div className={styles.currencies}>
         <Typography variant='subtitle1'>{title}</Typography>
         <ButtonGroup
           className='button_group'
