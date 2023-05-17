@@ -1,4 +1,7 @@
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { CurrenciesStateType, Values } from '../types';
+dayjs.extend(customParseFormat);
 
 export enum Currency {
   RUB = 'RUB',
@@ -8,9 +11,12 @@ export enum Currency {
   EUR = 'EUR',
 }
 
+export const DATE_FORMAT = 'DD/MM/YYYY';
+const date = dayjs(new Date()).format(DATE_FORMAT);
+
 export const initState: Values = {
   amount: { value: '', isValid: false },
-  date: { value: '', isValid: false },
+  date: { value: date, isValid: !!date },
 };
 
 export const initCurrenciesSate: CurrenciesStateType = {

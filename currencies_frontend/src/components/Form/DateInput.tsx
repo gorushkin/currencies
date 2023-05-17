@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import { useEffect, useRef } from 'react';
 import { InputType } from '../../types';
 import { cn } from '../../utils/utils';
-import customParseFormat from'dayjs/plugin/customParseFormat';
 /*
   Awaited<>
   ReturnType<typeof func>
@@ -47,7 +46,7 @@ export const DateInput: InputType<string> = ({ value, onChange, isActive, isVali
       value={value}
       onChange={handleChange}
       inputRef={input}
-      placeholder="DD/MM/YYYY"
+      placeholder='DD/MM/YYYY'
     />
   );
 };
