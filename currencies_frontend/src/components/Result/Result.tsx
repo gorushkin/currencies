@@ -5,7 +5,6 @@ export const Result = () => {
   const { currencies, rates, resultValues } = useExportContext();
 
   if (!rates) return null;
-  if (!rates) return null;
 
   const targetCurrency = rates[currencies.from].find((item) => item.code === currencies.to);
 
