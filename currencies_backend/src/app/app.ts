@@ -10,11 +10,11 @@ app.use(cors());
 app.use(express.json());
 
 app.post(
-  '/api',
+  '/currencies/api',
   errorHandler(async (req, res) => onRateHandler(req, res)),
 );
 
-app.get('*', (_req, res) => {
+app.get('/currencies', (_req, res) => {
   res.status(200).send({ message: 'app is running!!!' });
 });
 
