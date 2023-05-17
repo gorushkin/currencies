@@ -3,16 +3,14 @@ import { AmountInput } from './AmountInput';
 import { DateInput } from './DateInput';
 import { FC, memo, useCallback, useEffect, useState } from 'react';
 import { HandleChangeType, InputName, Values } from '../../types';
-import { cn } from '../../utils/utils';
 import { initState } from '../../utils/constants';
-import styles from './Form.module.scss';
+import style from './Form.module.scss';
 
 interface FormProps {
   onSubmit: ({ date, amount }: { date: string; amount: string }) => void;
-  width: number;
 }
 
-export const Form: FC<FormProps> = ({ onSubmit, width }) => {
+export const Form: FC<FormProps> = ({ onSubmit }) => {
   const [activeInput, setActiveInput] = useState<InputName>('amount');
   const [values, setValues] = useState<Values>(initState);
   const { amount, date } = values;
@@ -38,7 +36,7 @@ export const Form: FC<FormProps> = ({ onSubmit, width }) => {
 
   return (
     <form>
-      <div style={{ width: `${width}px` }} className={cn('input_wrapper', 'wrapper')}>
+      <div className={style.wrapper}>
         <DateInput
           value={date.value}
           isValid={date.isValid}
@@ -47,7 +45,7 @@ export const Form: FC<FormProps> = ({ onSubmit, width }) => {
           onClick={setActiveInput}
         />
       </div>
-      <div style={{ width: `${width}px` }} className={cn('input_wrapper', 'wrapper')}>
+      <div className={style.wrapper}>
         <AmountInput
           value={amount.value}
           isValid={amount.isValid}
@@ -56,13 +54,13 @@ export const Form: FC<FormProps> = ({ onSubmit, width }) => {
           onClick={setActiveInput}
         />
       </div>
-      <div style={{ width: `${width}px` }} className={cn('input_wrapper', 'wrapper')}>
+      <div className={style.wrapper}>
         <Button
           disabled={!amount.isValid || !date.isValid}
           onClick={handleSubmit}
           variant='outlined'
           color='primary'
-          className={styles.submitButton}
+          className={style.submitButton}
         >
           Submit
         </Button>

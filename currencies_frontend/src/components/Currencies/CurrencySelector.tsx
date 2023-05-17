@@ -1,8 +1,8 @@
 import { Typography, Button, ButtonGroup } from '@mui/material';
 import { Currency } from '../../utils/constants';
-import { memo } from 'react';
-import { useExportContext } from '../../context/AppContext';
-import styles from './Currencies.module.scss';
+import { CSSProperties, memo } from 'react';
+import { useConverterContext } from '../../context/ConverterContext';
+import style from './Currencies.module.scss';
 
 export const CurrencySelector = memo(
   ({
@@ -14,20 +14,29 @@ export const CurrencySelector = memo(
     onClick: (item: Currency) => void;
     title: string;
   }) => {
-    const { selectorCurrencies } = useExportContext();
+    const { selectorCurrencies } = useConverterContext();
+
+    const buttonStyle: CSSProperties = { width: `${100 / selectorCurrencies.length}%` };
 
     return (
-      <div className={styles.currencies}>
+      <div className={style.currencies}>
         <Typography variant='subtitle1'>{title}</Typography>
         <ButtonGroup
-          className='button_group'
+          className={style.buttonGroup}
           variant='contained'
           aria-label='outlined primary button group'
         >
           {selectorCurrencies.map(({ item, disabled }) => {
             const color = item === activeItem ? 'success' : 'info';
             return (
-              <Button disabled={disabled} onClick={() => onClick(item)} color={color} key={item}>
+              <Button
+                style={buttonStyle}
+                className={style.button}
+                disabled={disabled}
+                onClick={() => onClick(item)}
+                color={color}
+                key={item}
+              >
                 {item}
               </Button>
             );

@@ -1,31 +1,25 @@
-import { useRef, useLayoutEffect } from 'react';
+import { useRef } from 'react';
 import { CurrencySelector } from './CurrencySelector';
-import { useExportContext } from '../../context/AppContext';
-import styles from './Currencies.module.scss';
+import { useConverterContext } from '../../context/ConverterContext';
+import style from './Currencies.module.scss';
 
 export const Currencies = () => {
   const currencyRef = useRef<HTMLDivElement>(null);
 
-  const { updateWidth, currencies, handleClick } = useExportContext();
-
-  useLayoutEffect(() => {
-    if (!currencyRef.current) return;
-    const width = currencyRef.current.offsetWidth;
-    updateWidth(width);
-  }, [updateWidth]);
+  const { currencies, handleClick } = useConverterContext();
 
   return (
-    <>
-      <div ref={currencyRef} className={styles.wrapper}>
+    <div className={style.currenciesWrapper}>
+      <div ref={currencyRef} className={style.wrapper}>
         <CurrencySelector
           title='From:'
           activeCurrency={currencies.from}
           onClick={handleClick('from')}
         />
       </div>
-      <div className={styles.wrapper}>
+      <div className={style.wrapper}>
         <CurrencySelector title='To:' activeCurrency={currencies.to} onClick={handleClick('to')} />
       </div>
-    </>
+    </div>
   );
 };

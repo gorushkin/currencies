@@ -2,7 +2,7 @@ import { TextField } from '@mui/material';
 import dayjs from 'dayjs';
 import { useEffect, useRef } from 'react';
 import { InputType } from '../../types';
-import styles from './Form.module.scss';
+import style from './Form.module.scss';
 
 /*
   Awaited<>
@@ -40,7 +40,7 @@ export const DateInput: InputType<string> = ({ value, onChange, isActive, isVali
         style: { fontSize: '3rem', textAlign: 'center', padding: '0px 14px', height: '60px' },
       }}
       size='medium'
-      className={styles.input}
+      className={style.input}
       error={!isValid}
       variant='outlined'
       value={value}
