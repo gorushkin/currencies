@@ -6,30 +6,40 @@ import { WithMemo } from '../Form/Form';
 import { Result } from '../Result/Result';
 import style from './App.module.scss';
 import { Footer } from '../Footer/Footer';
+import { AppContextProvider } from '../../context/AppContext';
+import { Contact } from '../Contact/Contact';
+import { useState } from 'react';
+import { Typography } from '@mui/material';
 
 const App = () => {
   const { handleSubmit, isLoading } = useConverterContext();
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
 
   if (isLoading) return null;
 
   return (
     <div className={style.wrapper}>
       <div className={style.container}>
-        <h1 className={style.title}>Converter</h1>
+        <Typography variant='h1' className={style.title}>
+          Converter
+        </Typography>
         <Currencies />
         <WithMemo onSubmit={handleSubmit} />
         <Result />
       </div>
-      <Footer/>
+      <Footer handleClick={setIsInfoOpen} />
+      <Contact handleClick={setIsInfoOpen} isInfoOpen={isInfoOpen} />
     </div>
   );
 };
 
 const Provider = () => (
   <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <ConverterContextProvider>
-      <App />
-    </ConverterContextProvider>
+    <AppContextProvider>
+      <ConverterContextProvider>
+        <App />
+      </ConverterContextProvider>
+    </AppContextProvider>
   </LocalizationProvider>
 );
 

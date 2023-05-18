@@ -4,15 +4,24 @@
   bottom: 0;
   left: 0;
   right: 0;
-  font-size: 2rem;
   padding: 0.5rem 10rem;
   display: flex;
   justify-content: space-between;
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
 }
 
 .button {
   border: none;
   background: none;
-  font-size: 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  outline: 2px solid transparent;
+
+
+  &:hover {
+    outline: 2px solid red;
+    border-radius: 5px;
+  }
 }

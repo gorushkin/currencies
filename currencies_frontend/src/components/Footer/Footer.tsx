@@ -1,10 +1,18 @@
+import { Dispatch, FC } from 'react';
 import style from './Footer.module.scss';
+import { Typography } from '@mui/material';
 
-export const Footer = () => {
+interface FooterProps {
+  handleClick: Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const Footer: FC<FooterProps> = ({ handleClick }) => {
   return (
     <div className={style.footer}>
-      <span className={style.name}>Gorushkin Artyom</span>
-      <button className={style.button}>Contact Me!!!!</button>
+      <Typography className={style.name}>Gorushkin Artyom</Typography>
+      <button onClick={() => handleClick(true)} type='button' className={style.button}>
+        Contact Me!!!!
+      </button>
     </div>
   );
 };
