@@ -7,7 +7,7 @@ export const AmountInput: InputType<string> = ({ value, onChange, isValid, isAct
   const input = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    const isInputValid = !!e.target.value;
+    const isInputValid = !!e.target.value && !!Number(e.target.value);
     onChange({ isValid: isInputValid, value: e.target.value, name: 'amount' });
   };
 
@@ -29,7 +29,7 @@ export const AmountInput: InputType<string> = ({ value, onChange, isValid, isAct
       value={value}
       onChange={handleChange}
       inputRef={input}
-      type='number'
+      type='tel'
     />
   );
 };
