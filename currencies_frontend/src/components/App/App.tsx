@@ -1,11 +1,11 @@
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { ConverterContextProvider, useConverterContext } from './context/ConverterContext';
-import { Currencies } from './components/Currencies/Currencies';
-import { WithMemo } from './components/Form/Form';
-import { Result } from './components/Result/Result';
+import { ConverterContextProvider, useConverterContext } from '../../context/ConverterContext';
+import { Currencies } from '../Currencies/Currencies';
+import { WithMemo } from '../Form/Form';
+import { Result } from '../Result/Result';
 import style from './App.module.scss';
-import { Footer } from './components/Footer/Footer';
+import { Footer } from '../Footer/Footer';
 
 const App = () => {
   const { handleSubmit, isLoading } = useConverterContext();
