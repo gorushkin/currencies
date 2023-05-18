@@ -6,7 +6,6 @@ import { WithMemo } from '../Form/Form';
 import { Result } from '../Result/Result';
 import style from './App.module.scss';
 import { Footer } from '../Footer/Footer';
-import { AppContextProvider } from '../../context/AppContext';
 import { Contact } from '../Contact/Contact';
 import { useState } from 'react';
 import { Typography } from '@mui/material';
@@ -35,11 +34,9 @@ const App = () => {
 
 const Provider = () => (
   <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <AppContextProvider>
-      <ConverterContextProvider>
-        <App />
-      </ConverterContextProvider>
-    </AppContextProvider>
+    <ConverterContextProvider>
+      <App />
+    </ConverterContextProvider>
   </LocalizationProvider>
 );
 
