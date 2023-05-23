@@ -21,3 +21,5 @@ export const resetCurrencies = ({
     setCurrencies((state) => ({ ...state, [name]: initCurrenciesSate[name] }));
   }
 };
+
+export const roundValue = (value: number | undefined): string => (value ? value.toFixed(3) : '');
