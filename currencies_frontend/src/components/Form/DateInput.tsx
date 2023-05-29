@@ -3,6 +3,10 @@ import dayjs from 'dayjs';
 import { useEffect, useRef } from 'react';
 import { InputType } from '../../types';
 import style from './Form.module.scss';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { DATE_FORMAT, MOBILE_QUERY } from '../../utils/constants';
+import { MobileDatePicker } from '@mui/x-date-pickers';
+import { cn } from '../../utils/utils';
 
 /*
   Awaited<>
@@ -20,11 +24,20 @@ import style from './Form.module.scss';
 export const DateInput: InputType<string> = ({ value, onChange, isActive, isValid, onClick }) => {
   const input = useRef<HTMLInputElement>(null);
 
-  const handleChange = ({
+  const isMobile = useMediaQuery(MOBILE_QUERY);
+
+  const handleDesktopChange = ({
     target: { value },
   }: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    const date = dayjs(value, 'DD/MM/YYYY');
+    const date = dayjs(value, DATE_FORMAT);
     const isInputValid = date.isValid();
+    onChange({ isValid: isInputValid, value, name: 'date' });
+  };
+
+  const handleMobileDatePickerChange = (date: dayjs.Dayjs | null) => {
+    if (!date) return;
+    const isInputValid = date.isValid();
+    const value = date.format(DATE_FORMAT);
     onChange({ isValid: isInputValid, value, name: 'date' });
   };
 
@@ -32,6 +45,19 @@ export const DateInput: InputType<string> = ({ value, onChange, isActive, isVali
     if (!input.current || !isActive) return;
     input.current.focus();
   }, [isActive]);
+
+  if (isMobile) {
+    return (
+      <MobileDatePicker
+        onChange={handleMobileDatePickerChange}
+        className={cn(style.input, style.inputMobile)}
+        label='Date'
+        disableFuture
+        format={DATE_FORMAT}
+        value={dayjs(value, DATE_FORMAT)}
+      />
+    );
+  }
 
   return (
     <TextField
@@ -44,7 +70,7 @@ export const DateInput: InputType<string> = ({ value, onChange, isActive, isVali
       error={!isValid}
       variant='outlined'
       value={value}
-      onChange={handleChange}
+      onChange={handleDesktopChange}
       inputRef={input}
       placeholder='DD/MM/YYYY'
     />

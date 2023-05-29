@@ -21,7 +21,7 @@ import { resetCurrencies } from '../utils/utils';
 import { getRatesRequest } from '../api/api';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
-type HandleSubmit = ({ date, amount }: { date: string; amount: string }) => void;
+type HandleSubmit = ({ date, amount }: { date: string; amount: string }) => Promise<void>;
 
 export type ConverterContextType = {
   currencies: CurrenciesStateType;
@@ -43,7 +43,7 @@ const ConverterContextProvider = ({ children }: { children: ReactElement }) => {
   const [currencies, setCurrencies] = useState<CurrenciesStateType>(initCurrenciesSate);
 
   useLayoutEffect(() => {
-    const settings = readSettings() || initCurrenciesSate;
+    const settings = readSettings() ?? initCurrenciesSate;
     setIsLoading(false);
     setCurrencies(settings);
   }, [readSettings]);

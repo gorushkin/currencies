@@ -12,6 +12,7 @@
   padding-top: 1.5rem;
   max-width: 480px;
   margin: 0 auto;
+  padding-bottom: 4rem;
 }
 
 .title {
@@ -19,7 +20,6 @@
   margin: 0;
 
   @media (max-width: 480px) {
-    color: red;
     font-size: 5rem !important;
   }
 }

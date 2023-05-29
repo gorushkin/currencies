@@ -2,6 +2,8 @@ import { Dispatch, FC, useCallback, useEffect } from 'react';
 import style from './Contact.module.scss';
 import { cn } from '../../utils/utils';
 import { Button, Link, Typography } from '@mui/material';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { DESKTOP_QUERY, MOBILE_QUERY, TABLET_QUERY } from '../../utils/constants';
 
 interface InfoProps {
   isInfoOpen: boolean;
@@ -19,6 +21,8 @@ export const Contact: FC<InfoProps> = ({ isInfoOpen, handleClick }) => {
 
   const handleClose = useCallback(() => handleClick(false), [handleClick]);
 
+  const isDesktop = useMediaQuery(DESKTOP_QUERY);
+
   useEffect(() => {
     const handleKeydown = (e: KeyboardEvent) => {
       if (e.code === 'Escape') handleClose();
@@ -35,9 +39,11 @@ export const Contact: FC<InfoProps> = ({ isInfoOpen, handleClick }) => {
         <Typography variant='h1' className={style.title}>
           Contacts
         </Typography>
-        <button onClick={handleClose} className={style.button}>
-          <div className={style.buttonHoverShadow}></div>
-        </button>
+        {isDesktop && (
+          <button onClick={handleClose} className={style.button}>
+            <div className={style.buttonHoverShadow}></div>
+          </button>
+        )}
         <ul className={style.linkList}>
           {links.map(({ href, title }) => {
             return (
