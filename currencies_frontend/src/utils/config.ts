@@ -9,7 +9,7 @@ interface Config {
 
 const development = {
   API_BASE_URL: '/api',
-  ORIGIN: 'http://localhost:3000/currencies',
+  ORIGIN: 'http://localhost:3005/currencies',
 };
 
 const production = {

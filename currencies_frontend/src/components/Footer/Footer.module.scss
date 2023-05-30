@@ -1,3 +1,4 @@
+
 .footer {
   border-top: 1px solid black;
   position: fixed;
@@ -9,6 +10,13 @@
   justify-content: space-between;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1rem;
+  background: #ffffff;
+
+  @media (max-width: 981px) {
+    padding: 0.5rem 2rem;
+  }
+
+
 }
 
 .button {
@@ -19,9 +27,7 @@
   transition: all 0.2s;
   outline: 2px solid transparent;
 
-
   &:hover {
-    outline: 2px solid red;
     border-radius: 5px;
   }
 }

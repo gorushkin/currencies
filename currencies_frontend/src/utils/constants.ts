@@ -23,3 +23,7 @@ export const initCurrenciesSate: CurrenciesStateType = {
   from: Currency.RUB,
   to: Currency.USD,
 };
+
+export const MOBILE_QUERY = '(max-width: 480px)';
+export const TABLET_QUERY = '(max-width: 980px) and (min-width: 481px)';
+export const DESKTOP_QUERY = '(min-width: 981px)';

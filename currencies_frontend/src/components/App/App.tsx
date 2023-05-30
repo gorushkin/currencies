@@ -7,12 +7,18 @@ import { Result } from '../Result/Result';
 import style from './App.module.scss';
 import { Footer } from '../Footer/Footer';
 import { Contact } from '../Contact/Contact';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 
 const App = () => {
   const { handleSubmit, isLoading } = useConverterContext();
   const [isInfoOpen, setIsInfoOpen] = useState(false);
+
+  useEffect(() => {
+    const body = document.body;
+    const overflow = isInfoOpen ? 'hidden' : 'auto';
+    body.style.overflow = overflow;
+  }, [isInfoOpen]);
 
   if (isLoading) return null;
 

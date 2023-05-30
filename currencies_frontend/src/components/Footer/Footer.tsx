@@ -6,13 +6,11 @@ interface FooterProps {
   handleClick: Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Footer: FC<FooterProps> = ({ handleClick }) => {
-  return (
-    <div className={style.footer}>
-      <Typography className={style.name}>Gorushkin Artyom</Typography>
-      <button onClick={() => handleClick(true)} type='button' className={style.button}>
-        Contact Me!!!!
-      </button>
-    </div>
-  );
-};
+export const Footer: FC<FooterProps> = ({ handleClick }) => (
+  <div className={style.footer}>
+    <Typography className={style.name}>Gorushkin Artyom</Typography>
+    <button onClick={() => handleClick(true)} type='button' className={style.button}>
+      Contact Me!!!!
+    </button>
+  </div>
+);
