@@ -7,18 +7,14 @@ import { Result } from '../Result/Result';
 import style from './App.module.scss';
 import { Footer } from '../Footer/Footer';
 import { Contact } from '../Contact/Contact';
-import { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
+import { Slider } from '../Slider/Slider';
+import { useSlider } from '../../hooks/useSlider';
 
 const App = () => {
   const { handleSubmit, isLoading } = useConverterContext();
-  const [isInfoOpen, setIsInfoOpen] = useState(false);
 
-  useEffect(() => {
-    const body = document.body;
-    const overflow = isInfoOpen ? 'hidden' : 'auto';
-    body.style.overflow = overflow;
-  }, [isInfoOpen]);
+  const [isContactsOpen, openContacts, closeContacts] = useSlider();
 
   if (isLoading) return null;
 
@@ -32,8 +28,10 @@ const App = () => {
         <WithMemo onSubmit={handleSubmit} />
         <Result />
       </div>
-      <Footer handleClick={setIsInfoOpen} />
-      <Contact handleClick={setIsInfoOpen} isInfoOpen={isInfoOpen} />
+      <Footer onClick={openContacts} />
+      <Slider isOpen={isContactsOpen}>
+        <Contact onClose={closeContacts} />
+      </Slider>
     </div>
   );
 };
