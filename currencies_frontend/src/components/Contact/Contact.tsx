@@ -3,18 +3,12 @@ import style from './Contact.module.scss';
 import { cn } from '../../utils/utils';
 import { Button, Link, Typography } from '@mui/material';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { DESKTOP_QUERY, MOBILE_QUERY, TABLET_QUERY } from '../../utils/constants';
+import { DESKTOP_QUERY, links } from '../../utils/constants';
 
 interface InfoProps {
   isInfoOpen: boolean;
   handleClick: Dispatch<React.SetStateAction<boolean>>;
 }
-
-const links: { title: string; href: string }[] = [
-  { href: 'https://www.linkedin.com/in/gorushkin/', title: 'Linkedin' },
-  { href: 'https://github.com/gorushkin', title: 'Github' },
-  { href: 'https://t.me/artyomgorushkin', title: 'Telegram' },
-];
 
 export const Contact: FC<InfoProps> = ({ isInfoOpen, handleClick }) => {
   const styles = cn(style.wrapper, isInfoOpen ? style.wrapperOpen : style.wrapperClosed);

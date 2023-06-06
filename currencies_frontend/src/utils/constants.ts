@@ -27,3 +27,11 @@ export const initCurrenciesSate: CurrenciesStateType = {
 export const MOBILE_QUERY = '(max-width: 480px)';
 export const TABLET_QUERY = '(max-width: 980px) and (min-width: 481px)';
 export const DESKTOP_QUERY = '(min-width: 981px)';
+
+type Link = { title: string; href: string };
+
+export const links: Link[] = [
+  { href: 'https://www.linkedin.com/in/gorushkin/', title: 'Linkedin' },
+  { href: 'https://github.com/gorushkin', title: 'Github' },
+  { href: 'https://t.me/artyomgorushkin', title: 'Telegram' },
+];
