@@ -20,7 +20,7 @@ export const Slider: FC<SliderProps> = ({ children, isOpen, onClose, title }) =>
   return (
     <div className={wrapperStyles}>
       {isDesktop && (
-        <button onClick={onClose} className={style.button}>
+        <button onClick={onClose} className={style.closeButton}>
           <div className={style.buttonHoverShadow}></div>
         </button>
       )}
@@ -28,8 +28,8 @@ export const Slider: FC<SliderProps> = ({ children, isOpen, onClose, title }) =>
         <Typography variant='h1' className={style.title}>
           {title}
         </Typography>
-        {children}
-        <Button variant='contained' onClick={onClose} type='button'>
+        <div className={style.content}>{children}</div>
+        <Button className={style.button} variant='contained' onClick={onClose} type='button'>
           Close
         </Button>
       </div>
