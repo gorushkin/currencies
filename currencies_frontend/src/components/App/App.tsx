@@ -12,6 +12,7 @@ import { Slider } from '../Slider/Slider';
 import { useSlider } from '../../hooks/useSlider';
 import gearIcon from '../../assets/gear_icon.svg';
 import { Settings } from '../Settings/Settings';
+import { RecoilRoot } from 'recoil';
 
 const App = () => {
   const { handleSubmit, isLoading } = useConverterContext();
@@ -48,9 +49,11 @@ const App = () => {
 
 const Provider = () => (
   <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <ConverterContextProvider>
-      <App />
-    </ConverterContextProvider>
+    <RecoilRoot>
+      <ConverterContextProvider>
+        <App />
+      </ConverterContextProvider>
+    </RecoilRoot>
   </LocalizationProvider>
 );
 

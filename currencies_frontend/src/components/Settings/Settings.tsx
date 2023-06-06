@@ -1,22 +1,25 @@
 import style from './Settings.module.scss';
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect } from 'react';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { useRecoilState } from 'recoil';
+import { settingsState } from '../../state/state';
 
-type InputSettings = 'text' | 'datePicker';
+export type InputSettings = 'text' | 'datePicker';
 
 export const Settings = () => {
+  const [settings, setSettings] = useRecoilState(settingsState);
+
   const { readSettings, saveSettings } = useLocalStorage<InputSettings>('input_settings');
-  const [dateInput, setDateInput] = useState<InputSettings>('text');
 
   useLayoutEffect(() => {
-    const settings = readSettings() || 'text';
-    setDateInput(settings);
-  }, [readSettings]);
+    const savedSettings = readSettings() || 'text';
+    setSettings(savedSettings);
+  }, [readSettings, setSettings]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value as InputSettings;
-    setDateInput(value);
+    setSettings(value);
     saveSettings(value);
   };
 
@@ -29,7 +32,7 @@ export const Settings = () => {
         className={style.radioGroup}
         aria-label='gender'
         name='gender'
-        value={dateInput}
+        value={settings}
         onChange={handleChange}
       >
         <FormControlLabel value='text' control={<Radio />} label='As an usual input' />
