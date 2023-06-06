@@ -1,3 +1,4 @@
+import { Button, Typography } from '@mui/material';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { DESKTOP_QUERY } from '../../utils/constants';
 import { cn } from '../../utils/utils';
@@ -8,9 +9,10 @@ type SliderProps = {
   children: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
+  title: string;
 };
 
-export const Slider: FC<SliderProps> = ({ children, isOpen, onClose }) => {
+export const Slider: FC<SliderProps> = ({ children, isOpen, onClose, title }) => {
   const isDesktop = useMediaQuery(DESKTOP_QUERY);
 
   const wrapperStyles = cn(style.wrapper, isOpen ? style.wrapperOpen : style.wrapperClosed);
@@ -22,7 +24,15 @@ export const Slider: FC<SliderProps> = ({ children, isOpen, onClose }) => {
           <div className={style.buttonHoverShadow}></div>
         </button>
       )}
-      <div className={style.container}>{children}</div>
+      <div className={style.container}>
+        <Typography variant='h1' className={style.title}>
+          {title}
+        </Typography>
+        {children}
+        <Button variant='contained' onClick={onClose} type='button'>
+          Close
+        </Button>
+      </div>
     </div>
   );
 };

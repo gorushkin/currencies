@@ -11,18 +11,23 @@ import { Typography } from '@mui/material';
 import { Slider } from '../Slider/Slider';
 import { useSlider } from '../../hooks/useSlider';
 import gearIcon from '../../assets/gear_icon.svg';
+import { Settings } from '../Settings/Settings';
 
 const App = () => {
   const { handleSubmit, isLoading } = useConverterContext();
 
   const [isContactsOpen, openContacts, closeContacts] = useSlider();
+  const [isSettingsOpen, openSettings, closeSettings] = useSlider();
 
   if (isLoading) return null;
 
   return (
     <div className={style.wrapper}>
       <div className={style.container}>
-        <img className={style.gearIcon} width={35} height={35} alt='settings' src={gearIcon} />
+        <button onClick={openSettings} className={style.gearIcon}>
+          <img width={35} height={35} alt='settings' src={gearIcon} />
+          <div className={style.gearIconHoverShadow}></div>
+        </button>
         <Typography variant='h1' className={style.title}>
           Converter
         </Typography>
@@ -31,8 +36,11 @@ const App = () => {
         <Result />
       </div>
       <Footer onClick={openContacts} />
-      <Slider onClose={closeContacts} isOpen={isContactsOpen}>
-        <Contact onClose={closeContacts} />
+      <Slider title='Converter' onClose={closeContacts} isOpen={isContactsOpen}>
+        <Contact />
+      </Slider>
+      <Slider title='Settings' onClose={closeSettings} isOpen={isSettingsOpen}>
+        <Settings />
       </Slider>
     </div>
   );
