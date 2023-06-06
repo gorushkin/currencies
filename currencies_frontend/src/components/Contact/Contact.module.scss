@@ -38,6 +38,10 @@
 
 .title {
   margin-bottom: 2rem !important;
+
+  @media (max-width: 480px) {
+    font-size: 5rem !important;
+  }
 }
 
 .button {
