@@ -13,6 +13,13 @@
   max-width: 480px;
   margin: 0 auto;
   padding-bottom: 4rem;
+  position: relative;
+}
+
+.gearIcon {
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .title {

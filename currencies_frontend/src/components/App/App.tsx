@@ -10,6 +10,7 @@ import { Contact } from '../Contact/Contact';
 import { Typography } from '@mui/material';
 import { Slider } from '../Slider/Slider';
 import { useSlider } from '../../hooks/useSlider';
+import gearIcon from '../../assets/gear_icon.svg';
 
 const App = () => {
   const { handleSubmit, isLoading } = useConverterContext();
@@ -21,6 +22,7 @@ const App = () => {
   return (
     <div className={style.wrapper}>
       <div className={style.container}>
+        <img className={style.gearIcon} width={35} height={35} alt='settings' src={gearIcon} />
         <Typography variant='h1' className={style.title}>
           Converter
         </Typography>
@@ -29,7 +31,7 @@ const App = () => {
         <Result />
       </div>
       <Footer onClick={openContacts} />
-      <Slider isOpen={isContactsOpen}>
+      <Slider onClose={closeContacts} isOpen={isContactsOpen}>
         <Contact onClose={closeContacts} />
       </Slider>
     </div>
