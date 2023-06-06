@@ -15,6 +15,40 @@
   padding-bottom: 4rem;
 }
 
+.gearIcon {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+
+  .gearIconHoverShadow {
+    transition: all 0.2s;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    position: absolute;
+  }
+
+  &:hover {
+    .gearIconHoverShadow {
+      width: 3px;
+      height: 4px;
+      box-shadow: 0px 0px 35px 31px rgba(34, 60, 80, 0.2);
+    }
+
+    &::before,
+    &::after {
+      height: 3px;
+    }
+  }
+}
+
 .title {
   padding: 0 0;
   margin: 0;

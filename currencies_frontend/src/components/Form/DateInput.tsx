@@ -5,8 +5,10 @@ import { InputType } from '../../types';
 import style from './Form.module.scss';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { DATE_FORMAT, MOBILE_QUERY } from '../../utils/constants';
-import { MobileDatePicker } from '@mui/x-date-pickers';
+import { MobileDatePicker, DatePicker } from '@mui/x-date-pickers';
 import { cn } from '../../utils/utils';
+import { useRecoilState } from 'recoil';
+import { settingsState } from '../../state/state';
 
 /*
   Awaited<>
@@ -23,6 +25,7 @@ import { cn } from '../../utils/utils';
 
 export const DateInput: InputType<string> = ({ value, onChange, isActive, isValid, onClick }) => {
   const input = useRef<HTMLInputElement>(null);
+  const [settings] = useRecoilState(settingsState);
 
   const isMobile = useMediaQuery(MOBILE_QUERY);
 
@@ -55,6 +58,19 @@ export const DateInput: InputType<string> = ({ value, onChange, isActive, isVali
         disableFuture
         format={DATE_FORMAT}
         value={dayjs(value, DATE_FORMAT)}
+      />
+    );
+  }
+
+  if (settings === 'datePicker') {
+    return (
+      <DatePicker
+        label='Date'
+        className={cn(style.input, style.inputDatePicker)}
+        disableFuture
+        format={DATE_FORMAT}
+        value={dayjs(value, DATE_FORMAT)}
+        inputRef={input}
       />
     );
   }
