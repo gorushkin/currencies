@@ -9,7 +9,7 @@ interface FooterProps {
 export const Footer: FC<FooterProps> = ({ onClick }) => (
   <div className={style.footer}>
     <Typography className={style.name}>Gorushkin Artyom</Typography>
-    <button onClick={() => onClick(true)} type='button' className={style.button}>
+    <button onClick={onClick} type='button' className={style.button}>
       Contact Me!!!!
     </button>
   </div>
