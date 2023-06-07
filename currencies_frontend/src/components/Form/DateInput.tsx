@@ -8,7 +8,7 @@ import { DATE_FORMAT, MOBILE_QUERY } from '../../utils/constants';
 import { MobileDatePicker, DatePicker } from '@mui/x-date-pickers';
 import { cn } from '../../utils/utils';
 import { useRecoilValue } from 'recoil';
-import { settingsState } from '../../state/state';
+import { settingsState } from '../../state';
 
 /*
   Awaited<>
