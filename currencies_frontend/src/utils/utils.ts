@@ -22,4 +22,19 @@ export const resetCurrencies = ({
   }
 };
 
-export const roundValue = (value: number | undefined): string => (value ? value.toFixed(3) : '');
+export const roundValue = (value?: number): string => (value ? value.toFixed(3) : '');
+
+export const storage = <T>(key: string) => {
+  const set = (data: T) => {
+    const json = JSON.stringify(data);
+    localStorage.setItem(key, json);
+  };
+
+  const get = () => {
+    const json = localStorage.getItem(key);
+    if (!json) return null;
+    return JSON.parse(json) as T;
+  };
+
+  return { set, get };
+};

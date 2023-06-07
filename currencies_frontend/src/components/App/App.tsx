@@ -1,6 +1,5 @@
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { ConverterContextProvider, useConverterContext } from '../../context/ConverterContext';
 import { Currencies } from '../Currencies/Currencies';
 import { WithMemo } from '../Form/Form';
 import { Result } from '../Result/Result';
@@ -12,13 +11,14 @@ import { Slider } from '../Slider/Slider';
 import { useSlider } from '../../hooks/useSlider';
 import gearIcon from '../../assets/gear_icon.svg';
 import { Settings } from '../Settings/Settings';
-import { RecoilRoot } from 'recoil';
+import { RecoilRoot, useRecoilValue } from 'recoil';
+import { fetchState } from '../../state';
 
 const App = () => {
-  const { handleSubmit, isLoading } = useConverterContext();
-
   const [isContactsOpen, openContacts, closeContacts] = useSlider();
   const [isSettingsOpen, openSettings, closeSettings] = useSlider();
+
+  const { isLoading } = useRecoilValue(fetchState);
 
   if (isLoading) return null;
 
@@ -33,7 +33,7 @@ const App = () => {
           Converter
         </Typography>
         <Currencies />
-        <WithMemo onSubmit={handleSubmit} />
+        <WithMemo />
         <Result />
       </div>
       <Footer onClick={openContacts} />
@@ -50,9 +50,7 @@ const App = () => {
 const Provider = () => (
   <LocalizationProvider dateAdapter={AdapterDayjs}>
     <RecoilRoot>
-      <ConverterContextProvider>
-        <App />
-      </ConverterContextProvider>
+      <App />
     </RecoilRoot>
   </LocalizationProvider>
 );

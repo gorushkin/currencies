@@ -1,9 +1,14 @@
-import { useConverterContext } from '../../context/ConverterContext';
+import { useRecoilValue } from 'recoil';
 import { roundValue } from '../../utils/utils';
 import style from './Result.module.scss';
+import { fetchState } from '../../state/fetchState';
+import { formValuesState, selectedCurrenciesState } from '../../state';
 
 export const Result = () => {
-  const { currencies, rates, resultValues } = useConverterContext();
+  const currencies = useRecoilValue(selectedCurrenciesState);
+  const resultValues = useRecoilValue(formValuesState);
+
+  const { rates } = useRecoilValue(fetchState);
 
   if (!rates) return null;
 
@@ -14,12 +19,12 @@ export const Result = () => {
       <div className={style.valuesWrapper}>
         <div className={style.values}>
           <span className={style.label}>Date:</span>
-          <span className={style.values}>{resultValues.date}</span>
+          <span className={style.values}>{resultValues.date.value}</span>
         </div>
         <div className={style.values}>
           <span className={style.label}>Amount:</span>
           <span className={style.value}>
-            {resultValues.amount} {currencies.from} = {roundValue(targetCurrency?.amount)}{' '}
+            {resultValues.amount.value} {currencies.from} = {roundValue(targetCurrency?.amount)}{' '}
             {currencies.to}
           </span>
         </div>

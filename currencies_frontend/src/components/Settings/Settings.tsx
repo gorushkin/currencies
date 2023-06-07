@@ -1,26 +1,16 @@
 import style from './Settings.module.scss';
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
-import { useLayoutEffect } from 'react';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { useRecoilState } from 'recoil';
-import { settingsState } from '../../state/state';
+import { settingsState } from '../../state';
 
 export type InputSettings = 'text' | 'datePicker';
 
 export const Settings = () => {
   const [settings, setSettings] = useRecoilState(settingsState);
 
-  const { readSettings, saveSettings } = useLocalStorage<InputSettings>('input_settings');
-
-  useLayoutEffect(() => {
-    const savedSettings = readSettings() || 'text';
-    setSettings(savedSettings);
-  }, [readSettings, setSettings]);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value as InputSettings;
     setSettings(value);
-    saveSettings(value);
   };
 
   return (

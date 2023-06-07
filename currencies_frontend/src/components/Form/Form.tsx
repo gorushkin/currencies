@@ -1,23 +1,41 @@
 import { Button } from '@mui/material';
 import { AmountInput } from './AmountInput';
 import { DateInput } from './DateInput';
-import { FC, memo, useCallback, useEffect, useState } from 'react';
-import { HandleChangeType, InputName, Values } from '../../types';
-import { initState } from '../../utils/constants';
+import { memo, useCallback, useEffect, useState } from 'react';
 import style from './Form.module.scss';
+import { getRatesRequest } from '../../api/api';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { updateFetchState } from '../../state/fetchState';
+import { InputName } from '../../types';
+import { formValuesState } from '../../state/formValues';
 
-interface FormProps {
-  onSubmit: ({ date, amount }: { date: string; amount: string }) => void;
-}
+export type HandleChangeType = <T>({
+  name,
+  value,
+  isValid,
+}: {
+  name: string;
+  value: T;
+  isValid: boolean;
+}) => void;
 
-export const Form: FC<FormProps> = ({ onSubmit }) => {
+export const Form = () => {
   const [activeInput, setActiveInput] = useState<InputName>('amount');
-  const [values, setValues] = useState<Values>(initState);
+  const [values, setValues] = useRecoilState(formValuesState);
+
   const { amount, date } = values;
 
+  const setRates = useSetRecoilState(updateFetchState);
+
   const handleSubmit = useCallback(() => {
-    onSubmit({ amount: values.amount.value, date: values.date.value });
-  }, [onSubmit, values.amount.value, values.date.value]);
+    const getRates = async () => {
+      setRates((prev) => ({ ...prev, isLoading: true }));
+      const response = await getRatesRequest(values.date.value, values.amount.value);
+      const rates = response.ok ? response.data.rates : null;
+      setRates({ isLoading: false, rates });
+    };
+    getRates();
+  }, [setRates, values.amount.value, values.date.value]);
 
   useEffect(() => {
     const onKeyPresHandler = (event: KeyboardEvent) => {
@@ -30,9 +48,12 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
     return () => document.removeEventListener('keypress', onKeyPresHandler);
   }, [amount, date, activeInput, handleSubmit]);
 
-  const handleChange: HandleChangeType = useCallback(({ name, value, isValid }) => {
-    setValues((state) => ({ ...state, [name]: { value, isValid } }));
-  }, []);
+  const handleChange: HandleChangeType = useCallback(
+    ({ name, value, isValid }) => {
+      setValues((state) => ({ ...state, [name]: { value, isValid } }));
+    },
+    [setValues]
+  );
 
   return (
     <form>

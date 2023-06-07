@@ -1,48 +1,50 @@
 import { Typography, Button, ButtonGroup } from '@mui/material';
 import { Currency } from '../../utils/constants';
-import { CSSProperties, memo } from 'react';
-import { useConverterContext } from '../../context/ConverterContext';
+import { CSSProperties, FC, memo } from 'react';
 import style from './Currencies.module.scss';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { currenciesState, selectedCurrenciesState } from '../../state';
 
-export const CurrencySelector = memo(
-  ({
-    activeCurrency: activeItem,
-    onClick,
-    title,
-  }: {
-    activeCurrency: any;
-    onClick: (item: Currency) => void;
-    title: string;
-  }) => {
-    const { selectorCurrencies } = useConverterContext();
+type SelectorType = 'from' | 'to';
 
-    const buttonStyle: CSSProperties = { width: `${100 / selectorCurrencies.length}%` };
+type CurrencySelectorProps = { type: 'from' | 'to' };
 
-    return (
-      <div className={style.currencies}>
-        <Typography variant='subtitle1'>{title}</Typography>
-        <ButtonGroup
-          className={style.buttonGroup}
-          variant='contained'
-          aria-label='outlined primary button group'
-        >
-          {selectorCurrencies.map(({ item, disabled }) => {
-            const color = item === activeItem ? 'success' : 'info';
-            return (
-              <Button
-                style={buttonStyle}
-                className={style.button}
-                disabled={disabled}
-                onClick={() => onClick(item)}
-                color={color}
-                key={item}
-              >
-                {item}
-              </Button>
-            );
-          })}
-        </ButtonGroup>
-      </div>
-    );
-  }
-);
+const titleMapping: Record<SelectorType, string> = { from: 'From:', to: 'To:' };
+
+export const CurrencySelector: FC<CurrencySelectorProps> = memo(({ type }) => {
+  const [currencies, setCurrencies] = useRecoilState(selectedCurrenciesState);
+  const selectorCurrencies = useRecoilValue(currenciesState);
+
+  const buttonStyle: CSSProperties = { width: `${100 / selectorCurrencies.length}%` };
+
+  const handleClick = (item: Currency) => {
+    setCurrencies((prev) => ({ ...prev, [type]: item }));
+  };
+
+  return (
+    <div className={style.currencies}>
+      <Typography variant='subtitle1'>{titleMapping[type]}</Typography>
+      <ButtonGroup
+        className={style.buttonGroup}
+        variant='contained'
+        aria-label='outlined primary button group'
+      >
+        {selectorCurrencies.map(({ item, disabled }) => {
+          const color = item === currencies[type] ? 'success' : 'info';
+          return (
+            <Button
+              style={buttonStyle}
+              className={style.button}
+              disabled={disabled}
+              onClick={() => handleClick(item)}
+              color={color}
+              key={item}
+            >
+              {item}
+            </Button>
+          );
+        })}
+      </ButtonGroup>
+    </div>
+  );
+});
