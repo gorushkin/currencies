@@ -7,7 +7,7 @@ import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { DATE_FORMAT, MOBILE_QUERY } from '../../utils/constants';
 import { MobileDatePicker, DatePicker } from '@mui/x-date-pickers';
 import { cn } from '../../utils/utils';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { settingsState } from '../../state/state';
 
 /*
@@ -25,7 +25,7 @@ import { settingsState } from '../../state/state';
 
 export const DateInput: InputType<string> = ({ value, onChange, isActive, isValid, onClick }) => {
   const input = useRef<HTMLInputElement>(null);
-  const [settings] = useRecoilState(settingsState);
+  const settings = useRecoilValue(settingsState);
 
   const isMobile = useMediaQuery(MOBILE_QUERY);
 

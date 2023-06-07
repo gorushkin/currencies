@@ -10,12 +10,12 @@ export type InputSettings = 'text' | 'datePicker';
 export const Settings = () => {
   const [settings, setSettings] = useRecoilState(settingsState);
 
-  const { readSettings, saveSettings } = useLocalStorage<InputSettings>('input_settings');
+  const [saveSettings, getSettings] = useLocalStorage<InputSettings>('input_settings');
 
   useLayoutEffect(() => {
-    const savedSettings = readSettings() || 'text';
+    const savedSettings = getSettings() ?? 'text';
     setSettings(savedSettings);
-  }, [readSettings, setSettings]);
+  }, [getSettings, saveSettings, setSettings]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value as InputSettings;

@@ -37,16 +37,16 @@ export type ConverterContextType = {
 const ConverterContext = createContext<ConverterContextType | null>(null);
 
 const ConverterContextProvider = ({ children }: { children: ReactElement }) => {
-  const { readSettings, saveSettings } = useLocalStorage<CurrenciesStateType>('settings');
+  const [saveSettings, getSettings] = useLocalStorage<CurrenciesStateType>('settings');
   const [isLoading, setIsLoading] = useState(true);
 
   const [currencies, setCurrencies] = useState<CurrenciesStateType>(initCurrenciesSate);
 
   useLayoutEffect(() => {
-    const settings = readSettings() ?? initCurrenciesSate;
+    const settings = getSettings() ?? initCurrenciesSate;
     setIsLoading(false);
     setCurrencies(settings);
-  }, [readSettings]);
+  }, [getSettings]);
 
   const [selectorCurrencies, setSelectorCurrencies] = useState<SelectorCurrency[]>(
     Object.values(Currency).map((item) => ({ item, disabled: false }))

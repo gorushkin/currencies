@@ -1,19 +1,12 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
+import { storage } from '../utils/utils';
 
-export const useLocalStorage = <T,>(key: string) => {
-  const saveSettings = useCallback(
-    (data: T) => {
-      const json = JSON.stringify(data);
-      localStorage.setItem(key, json);
-    },
-    [key]
-  );
+export const useLocalStorage = <T,>(key: string): [(data: T) => void, () => T | null] => {
+  const storageHandler = useMemo(() => storage<T>(key), [key]);
 
-  const readSettings = useCallback(() => {
-    const json = localStorage.getItem(key);
-    if (!json) return null;
-    return JSON.parse(json) as T;
-  }, [key]);
+  const set = useCallback((data: T) => storageHandler.set(data), [storageHandler]);
 
-  return { saveSettings, readSettings };
+  const get = useCallback(() => storageHandler.get(), [storageHandler]);
+
+  return [set, get];
 };
