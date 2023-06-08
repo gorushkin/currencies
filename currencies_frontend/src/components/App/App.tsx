@@ -11,16 +11,11 @@ import { Slider } from '../Slider/Slider';
 import { useSlider } from '../../hooks/useSlider';
 import gearIcon from '../../assets/gear_icon.svg';
 import { Settings } from '../Settings/Settings';
-import { RecoilRoot, useRecoilValue } from 'recoil';
-import { fetchState } from '../../state';
+import { RecoilRoot } from 'recoil';
 
 const App = () => {
   const [isContactsOpen, openContacts, closeContacts] = useSlider();
   const [isSettingsOpen, openSettings, closeSettings] = useSlider();
-
-  const { isLoading } = useRecoilValue(fetchState);
-
-  if (isLoading) return null;
 
   return (
     <div className={style.wrapper}>
