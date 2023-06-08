@@ -1,13 +1,16 @@
 import { Button } from '@mui/material';
 import { AmountInput } from './AmountInput';
 import { DateInput } from './DateInput';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import style from './Form.module.scss';
 import { getRatesRequest } from '../../api/api';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { updateFetchState } from '../../state/fetchState';
 import { InputName } from '../../types';
 import { formValuesState } from '../../state/formValues';
+import { cn } from '../../utils/utils';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '../../utils/constants';
 
 export type HandleChangeType = <T>({
   name,
@@ -26,6 +29,44 @@ export const Form = () => {
   const { amount, date } = values;
 
   const setRates = useSetRecoilState(updateFetchState);
+
+  const input = useRef<HTMLDivElement>(null);
+
+  const [isOver, setIsOver] = useState(false);
+  useEffect(() => {
+    if (!input.current) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      setIsOver((prev) => !prev);
+    };
+
+    input.current.addEventListener('mouseover', handleMouseMove);
+    input.current.addEventListener('mouseleave', handleMouseMove);
+
+    return () => {
+      if (!input.current) return;
+      input.current.removeEventListener('mouseover', handleMouseMove);
+      input.current.removeEventListener('mouseleave', handleMouseMove);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      const prevDate = dayjs(values.date.value, DATE_FORMAT);
+
+      const newData =
+        e.deltaY < 0
+          ? prevDate.add(1, 'day').format(DATE_FORMAT)
+          : prevDate.subtract(1, 'day').format(DATE_FORMAT);
+      setValues((prev) => ({ ...prev, date: { isValid: true, value: newData } }));
+    };
+
+    if (!isOver) return;
+
+    document.addEventListener('wheel', handleWheel);
+
+    return () => document.removeEventListener('wheel', handleWheel);
+  }, [isOver, setValues, values.date.value]);
 
   const handleSubmit = useCallback(() => {
     const getRates = async () => {
@@ -57,7 +98,7 @@ export const Form = () => {
 
   return (
     <form>
-      <div className={style.wrapper}>
+      <div ref={input} className={cn(style.wrapper, isOver && style.wrapperIsOver)}>
         <DateInput
           value={date.value}
           isValid={date.isValid}

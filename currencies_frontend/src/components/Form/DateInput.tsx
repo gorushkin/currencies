@@ -57,6 +57,7 @@ export const DateInput: InputType<string> = ({ value, onChange, isActive, isVali
         label='Date'
         disableFuture
         format={DATE_FORMAT}
+        inputRef={input}
         value={dayjs(value, DATE_FORMAT)}
       />
     );
@@ -82,7 +83,7 @@ export const DateInput: InputType<string> = ({ value, onChange, isActive, isVali
         style: { fontSize: '3rem', textAlign: 'center', padding: '0px 14px', height: '60px' },
       }}
       size='medium'
-      className={style.input}
+      className={cn(style.input)}
       error={!isValid}
       variant='outlined'
       value={value}

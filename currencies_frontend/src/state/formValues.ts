@@ -18,3 +18,8 @@ export const formValuesState = atom<Values>({
   key: 'formValuesState',
   default: initialValue,
 });
+
+export const resultValuesState = atom<Values>({
+  key: 'resultValuesState',
+  default: initialValue,
+});
