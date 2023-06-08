@@ -4,8 +4,8 @@ import { DateInput } from './DateInput';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import style from './Form.module.scss';
 import { getRatesRequest } from '../../api/api';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { updateFetchState } from '../../state/fetchState';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { fetchState, updateFetchState } from '../../state/fetchState';
 import { InputName } from '../../types';
 import { formValuesState } from '../../state/formValues';
 import { cn } from '../../utils/utils';
@@ -25,6 +25,7 @@ export type HandleChangeType = <T>({
 export const Form = () => {
   const [activeInput, setActiveInput] = useState<InputName>('amount');
   const [values, setValues] = useRecoilState(formValuesState);
+  const { isLoading } = useRecoilValue(fetchState);
 
   const { amount, date } = values;
 
@@ -118,7 +119,7 @@ export const Form = () => {
       </div>
       <div className={style.wrapper}>
         <Button
-          disabled={!amount.isValid || !date.isValid}
+          disabled={!amount.isValid || !date.isValid || isLoading}
           onClick={handleSubmit}
           variant='outlined'
           color='primary'
