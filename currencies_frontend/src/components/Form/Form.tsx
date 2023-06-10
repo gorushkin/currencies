@@ -13,15 +13,7 @@ import { AmountInput } from './AmountInput';
 import { DateInput } from './DateInput';
 import style from './Form.module.scss';
 
-export type HandleChangeType = <T>({
-  isValid,
-  name,
-  value,
-}: {
-  isValid: boolean;
-  name: string;
-  value: T;
-}) => void;
+export type HandleChangeType = <T>({ isValid, name, value }: { isValid: boolean; name: string; value: T }) => void;
 
 export const Form = () => {
   const [activeInput, setActiveInput] = useState<InputName>('amount');
@@ -55,12 +47,13 @@ export const Form = () => {
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       const prevDate = dayjs(values.date.value, DATE_FORMAT);
+      const currentDate = dayjs();
+      const newDate = e.deltaY < 0 ? prevDate.add(1, 'day') : prevDate.subtract(1, 'day');
+      const dateDiff = newDate.diff(currentDate, 'day');
 
-      const newData =
-        e.deltaY < 0
-          ? prevDate.add(1, 'day').format(DATE_FORMAT)
-          : prevDate.subtract(1, 'day').format(DATE_FORMAT);
-      setValues((prev) => ({ ...prev, date: { isValid: true, value: newData } }));
+      const correctDate = dateDiff >= 0 ? currentDate.format(DATE_FORMAT) : newDate.format(DATE_FORMAT);
+
+      setValues((prev) => ({ ...prev, date: { isValid: true, value: correctDate } }));
     };
 
     if (!isOver) return;
@@ -121,10 +114,10 @@ export const Form = () => {
       <div className={style.wrapper}>
         <Button
           className={style.submitButton}
-          color='primary'
+          color="primary"
           disabled={!amount.isValid || !date.isValid || isLoading}
           onClick={handleSubmit}
-          variant='outlined'
+          variant="outlined"
         >
           Submit
         </Button>

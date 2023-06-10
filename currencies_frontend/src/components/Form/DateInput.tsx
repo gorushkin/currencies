@@ -28,7 +28,6 @@ export const DateInput: InputType<string> = ({
   isActive,
   isValid,
   onChange,
-  onClick,
   value,
 }) => {
   const input = useRef<HTMLInputElement>(null);
