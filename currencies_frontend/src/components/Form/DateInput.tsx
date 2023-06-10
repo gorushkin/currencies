@@ -38,8 +38,7 @@ export const DateInput: InputType<string> = ({
   const handleDesktopChange = ({
     target: { value },
   }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const date = dayjs(value, DATE_FORMAT);
-    const isInputValid = date.isValid();
+    const isInputValid = dayjs(value, DATE_FORMAT, true).isValid();
     onChange({ isValid: isInputValid, name: 'date', value });
   };
 
