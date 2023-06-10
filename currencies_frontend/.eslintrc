@@ -1,7 +1,19 @@
 {
+  "parser": "@typescript-eslint/parser",
   "extends": [
     "react-app",
     "prettier",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:perfectionist/recommended-alphabetical"
-  ]
+  ],
+  "rules": {
+    "no-console": "warn",
+    "max-len": [
+      "warn",
+      {
+        "code": 120
+      }
+    ]
+  }
 }
