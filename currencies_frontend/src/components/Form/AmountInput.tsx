@@ -1,22 +1,20 @@
 import { TextField } from '@mui/material';
 import { useEffect, useRef } from 'react';
+import { useSetRecoilState } from 'recoil';
 
+import { formValuesState } from '../../state';
 import { InputType } from '../../types';
 import style from './Form.module.scss';
 
-export const AmountInput: InputType<string> = ({
-  isActive,
-  isValid,
-  onChange,
-  value,
-}) => {
+export const AmountInput: InputType<string> = ({ isActive, isValid, value }) => {
+  const setValues = useSetRecoilState(formValuesState);
+
   const input = useRef<HTMLInputElement>(null);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const isInputValid = !!e.target.value && !!Number(e.target.value);
-    onChange({ isValid: isInputValid, name: 'amount', value: e.target.value });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    const isValid = !!e.target.value && !!Number(e.target.value);
+    setValues((state) => ({ ...state, amount: { isValid, value } }));
   };
 
   useEffect(() => {

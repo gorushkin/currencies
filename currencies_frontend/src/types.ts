@@ -19,13 +19,11 @@ export type OnChange<T> = ({
 export type InputType<T> = ({
   isActive,
   isValid,
-  onChange,
   onClick,
   value,
 }: {
   isActive: boolean;
   isValid: boolean;
-  onChange: OnChange<T>;
   onClick: React.Dispatch<React.SetStateAction<InputName>>;
   value: T;
 }) => React.JSX.Element;
