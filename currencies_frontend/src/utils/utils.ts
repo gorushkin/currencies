@@ -1,14 +1,14 @@
 import { CurrenciesStateType, Name } from '../types';
 import { Currency, initCurrenciesSate } from './constants';
 
-type ClassNames = (string | true | false)[];
+type ClassNames = (false | string | true)[];
 
 export const cn = (...classnames: ClassNames) => classnames.filter((item) => !!item).join(' ');
 
 export const resetCurrencies = ({
+  currencies,
   currency,
   name,
-  currencies,
   setCurrencies,
 }: {
   currencies: Currency[];
@@ -36,5 +36,5 @@ export const storage = <T>(key: string) => {
     return JSON.parse(json) as T;
   };
 
-  return { set, get };
+  return { get, set };
 };

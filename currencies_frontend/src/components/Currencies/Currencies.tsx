@@ -1,17 +1,18 @@
 import { useRef } from 'react';
-import { CurrencySelector } from './CurrencySelector';
+
 import style from './Currencies.module.scss';
+import { CurrencySelector } from './CurrencySelector';
 
 export const Currencies = () => {
   const currencyRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className={style.currenciesWrapper}>
-      <div ref={currencyRef} className={style.wrapper}>
-        <CurrencySelector type='from' />
+      <div className={style.wrapper} ref={currencyRef}>
+        <CurrencySelector type="from" />
       </div>
       <div className={style.wrapper}>
-        <CurrencySelector type='to' />
+        <CurrencySelector type="to" />
       </div>
     </div>
   );

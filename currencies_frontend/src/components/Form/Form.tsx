@@ -1,25 +1,26 @@
 import { Button } from '@mui/material';
+import dayjs from 'dayjs';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+
+import { getRatesRequest } from '../../api/api';
+import { fetchState, updateFetchState } from '../../state/fetchState';
+import { formValuesState } from '../../state/formValues';
+import { InputName } from '../../types';
+import { DATE_FORMAT } from '../../utils/constants';
+import { cn } from '../../utils/utils';
 import { AmountInput } from './AmountInput';
 import { DateInput } from './DateInput';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import style from './Form.module.scss';
-import { getRatesRequest } from '../../api/api';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { fetchState, updateFetchState } from '../../state/fetchState';
-import { InputName } from '../../types';
-import { formValuesState } from '../../state/formValues';
-import { cn } from '../../utils/utils';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '../../utils/constants';
 
 export type HandleChangeType = <T>({
+  isValid,
   name,
   value,
-  isValid,
 }: {
+  isValid: boolean;
   name: string;
   value: T;
-  isValid: boolean;
 }) => void;
 
 export const Form = () => {
@@ -91,39 +92,39 @@ export const Form = () => {
   }, [amount, date, activeInput, handleSubmit]);
 
   const handleChange: HandleChangeType = useCallback(
-    ({ name, value, isValid }) => {
-      setValues((state) => ({ ...state, [name]: { value, isValid } }));
+    ({ isValid, name, value }) => {
+      setValues((state) => ({ ...state, [name]: { isValid, value } }));
     },
     [setValues]
   );
 
   return (
     <form>
-      <div ref={input} className={cn(style.wrapper, isOver && style.wrapperIsOver)}>
+      <div className={cn(style.wrapper, isOver && style.wrapperIsOver)} ref={input}>
         <DateInput
-          value={date.value}
-          isValid={date.isValid}
           isActive={activeInput === 'date'}
+          isValid={date.isValid}
           onChange={handleChange}
           onClick={setActiveInput}
+          value={date.value}
         />
       </div>
       <div className={style.wrapper}>
         <AmountInput
-          value={amount.value}
-          isValid={amount.isValid}
           isActive={activeInput === 'amount'}
+          isValid={amount.isValid}
           onChange={handleChange}
           onClick={setActiveInput}
+          value={amount.value}
         />
       </div>
       <div className={style.wrapper}>
         <Button
+          className={style.submitButton}
+          color='primary'
           disabled={!amount.isValid || !date.isValid || isLoading}
           onClick={handleSubmit}
           variant='outlined'
-          color='primary'
-          className={style.submitButton}
         >
           Submit
         </Button>

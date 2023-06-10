@@ -1,48 +1,49 @@
 import React from 'react';
+
 import { Currency } from './utils/constants';
 
-export type InputName = 'date' | 'amount';
+export type InputName = 'amount' | 'date';
 
-export type Mode = 'inputDate' | 'inputAmount' | 'submit';
+export type Mode = 'inputAmount' | 'inputDate' | 'submit';
 
 export type OnChange<T> = ({
-  value,
-  name,
   isValid,
+  name,
+  value,
 }: {
-  value: T;
-  name: InputName;
   isValid: boolean;
+  name: InputName;
+  value: T;
 }) => void;
 
 export type InputType<T> = ({
-  onChange,
   isActive,
-  value,
   isValid,
+  onChange,
   onClick,
+  value,
 }: {
   isActive: boolean;
-  value: T;
+  isValid: boolean;
   onChange: OnChange<T>;
   onClick: React.Dispatch<React.SetStateAction<InputName>>;
-  isValid: boolean;
+  value: T;
 }) => React.JSX.Element;
 
 export type Name = 'from' | 'to';
 
 export type CurrenciesStateType = Record<Name, Currency>;
 
-export type HandleClickType = (type: 'to' | 'from') => (item: Currency) => void;
+export type HandleClickType = (type: 'from' | 'to') => (item: Currency) => void;
 
-export type SelectorCurrency = { item: Currency; disabled: boolean };
+export type SelectorCurrency = { disabled: boolean; item: Currency };
 
 export type Rate = {
+  amount: number;
   code: Currency;
   rate: number;
-  amount: number;
 };
 
-export type CurrencyRates = Record<Currency, Rate[]> | null;
+export type CurrencyRates = null | Record<Currency, Rate[]>;
 
-export type MODE = 'production' | 'development';
+export type MODE = 'development' | 'production';

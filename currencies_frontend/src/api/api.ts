@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { CurrencyRates } from '../types';
 import { config } from '../utils/config';
 
@@ -15,7 +16,7 @@ type Request = (
 
 export const getRatesRequest: Request = async (date, amount) => {
   try {
-    const { data } = await instance.post<ApiResponse>('', { date, amount });
+    const { data } = await instance.post<ApiResponse>('', { amount, date });
     return { data, ok: true };
   } catch (error) {
     return { error: 'There is an error', ok: false };
