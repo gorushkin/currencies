@@ -2,6 +2,8 @@
   "extends": [
     "react-app",
     "prettier",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:perfectionist/recommended-alphabetical"
   ]
 }
