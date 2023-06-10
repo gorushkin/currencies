@@ -1,14 +1,15 @@
 import { TextField } from '@mui/material';
+import { DatePicker, MobileDatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { useEffect, useRef } from 'react';
-import { InputType } from '../../types';
-import style from './Form.module.scss';
-import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { DATE_FORMAT, MOBILE_QUERY } from '../../utils/constants';
-import { MobileDatePicker, DatePicker } from '@mui/x-date-pickers';
-import { cn } from '../../utils/utils';
 import { useRecoilValue } from 'recoil';
+
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { settingsState } from '../../state';
+import { InputType } from '../../types';
+import { DATE_FORMAT, MOBILE_QUERY } from '../../utils/constants';
+import { cn } from '../../utils/utils';
+import style from './Form.module.scss';
 
 /*
   Awaited<>
@@ -23,7 +24,13 @@ import { settingsState } from '../../state';
   NonNullable<string | null>
 */
 
-export const DateInput: InputType<string> = ({ value, onChange, isActive, isValid, onClick }) => {
+export const DateInput: InputType<string> = ({
+  isActive,
+  isValid,
+  onChange,
+  onClick,
+  value,
+}) => {
   const input = useRef<HTMLInputElement>(null);
   const settings = useRecoilValue(settingsState);
 
@@ -31,17 +38,17 @@ export const DateInput: InputType<string> = ({ value, onChange, isActive, isVali
 
   const handleDesktopChange = ({
     target: { value },
-  }: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const date = dayjs(value, DATE_FORMAT);
     const isInputValid = date.isValid();
-    onChange({ isValid: isInputValid, value, name: 'date' });
+    onChange({ isValid: isInputValid, name: 'date', value });
   };
 
   const handleMobileDatePickerChange = (date: dayjs.Dayjs | null) => {
     if (!date) return;
     const isInputValid = date.isValid();
     const value = date.format(DATE_FORMAT);
-    onChange({ isValid: isInputValid, value, name: 'date' });
+    onChange({ isValid: isInputValid, name: 'date', value });
   };
 
   useEffect(() => {
@@ -52,11 +59,12 @@ export const DateInput: InputType<string> = ({ value, onChange, isActive, isVali
   if (isMobile) {
     return (
       <MobileDatePicker
-        onChange={handleMobileDatePickerChange}
         className={cn(style.input, style.inputMobile)}
-        label='Date'
         disableFuture
         format={DATE_FORMAT}
+        inputRef={input}
+        label="Date"
+        onChange={handleMobileDatePickerChange}
         value={dayjs(value, DATE_FORMAT)}
       />
     );
@@ -65,30 +73,35 @@ export const DateInput: InputType<string> = ({ value, onChange, isActive, isVali
   if (settings === 'datePicker') {
     return (
       <DatePicker
-        label='Date'
         className={cn(style.input, style.inputDatePicker)}
         disableFuture
         format={DATE_FORMAT}
-        value={dayjs(value, DATE_FORMAT)}
         inputRef={input}
+        label="Date"
+        value={dayjs(value, DATE_FORMAT)}
       />
     );
   }
 
   return (
     <TextField
-      label='Date'
       inputProps={{
-        style: { fontSize: '3rem', textAlign: 'center', padding: '0px 14px', height: '60px' },
+        style: {
+          fontSize: '3rem',
+          height: '60px',
+          padding: '0px 14px',
+          textAlign: 'center',
+        },
       }}
-      size='medium'
-      className={style.input}
+      className={cn(style.input)}
       error={!isValid}
-      variant='outlined'
-      value={value}
-      onChange={handleDesktopChange}
       inputRef={input}
-      placeholder='DD/MM/YYYY'
+      label="Date"
+      onChange={handleDesktopChange}
+      placeholder="DD/MM/YYYY"
+      size="medium"
+      value={value}
+      variant="outlined"
     />
   );
 };

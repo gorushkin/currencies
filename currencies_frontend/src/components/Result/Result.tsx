@@ -1,12 +1,13 @@
 import { useRecoilValue } from 'recoil';
+
+import { resultValuesState, selectedCurrenciesState } from '../../state';
+import { fetchState } from '../../state/fetchState';
 import { roundValue } from '../../utils/utils';
 import style from './Result.module.scss';
-import { fetchState } from '../../state/fetchState';
-import { formValuesState, selectedCurrenciesState } from '../../state';
 
 export const Result = () => {
   const currencies = useRecoilValue(selectedCurrenciesState);
-  const resultValues = useRecoilValue(formValuesState);
+  const resultValues = useRecoilValue(resultValuesState);
 
   const { rates } = useRecoilValue(fetchState);
 

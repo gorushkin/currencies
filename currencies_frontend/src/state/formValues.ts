@@ -1,20 +1,26 @@
-import { atom } from 'recoil';
-import { DATE_FORMAT } from '../utils/constants';
 import dayjs from 'dayjs';
+import { atom } from 'recoil';
+
+import { DATE_FORMAT } from '../utils/constants';
 
 export type Values = {
-  amount: { value: string; isValid: boolean };
-  date: { value: string; isValid: boolean };
+  amount: { isValid: boolean, value: string },
+  date: { isValid: boolean, value: string },
 };
 
 const date = dayjs(new Date()).format(DATE_FORMAT);
 
 const initialValue: Values = {
-  amount: { value: '', isValid: false },
-  date: { value: date, isValid: !!date },
+  amount: { isValid: false, value: '' },
+  date: { isValid: !!date, value: date },
 };
 
 export const formValuesState = atom<Values>({
-  key: 'formValuesState',
   default: initialValue,
+  key: 'formValuesState',
+});
+
+export const resultValuesState = atom<Values>({
+  default: initialValue,
+  key: 'resultValuesState',
 });

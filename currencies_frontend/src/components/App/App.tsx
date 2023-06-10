@@ -1,35 +1,31 @@
+import { Typography } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { RecoilRoot } from 'recoil';
+
+import gearIcon from '../../assets/gear_icon.svg';
+import { useSlider } from '../../hooks/useSlider';
+import { Contact } from '../Contact/Contact';
 import { Currencies } from '../Currencies/Currencies';
+import { Footer } from '../Footer/Footer';
 import { WithMemo } from '../Form/Form';
 import { Result } from '../Result/Result';
-import style from './App.module.scss';
-import { Footer } from '../Footer/Footer';
-import { Contact } from '../Contact/Contact';
-import { Typography } from '@mui/material';
-import { Slider } from '../Slider/Slider';
-import { useSlider } from '../../hooks/useSlider';
-import gearIcon from '../../assets/gear_icon.svg';
 import { Settings } from '../Settings/Settings';
-import { RecoilRoot, useRecoilValue } from 'recoil';
-import { fetchState } from '../../state';
+import { Slider } from '../Slider/Slider';
+import style from './App.module.scss';
 
 const App = () => {
   const [isContactsOpen, openContacts, closeContacts] = useSlider();
   const [isSettingsOpen, openSettings, closeSettings] = useSlider();
 
-  const { isLoading } = useRecoilValue(fetchState);
-
-  if (isLoading) return null;
-
   return (
     <div className={style.wrapper}>
       <div className={style.container}>
-        <button onClick={openSettings} className={style.gearIcon}>
-          <img width={35} height={35} alt='settings' src={gearIcon} />
+        <button className={style.gearIcon} onClick={openSettings}>
+          <img alt="settings" height={35} src={gearIcon} width={35} />
           <div className={style.gearIconHoverShadow}></div>
         </button>
-        <Typography variant='h1' className={style.title}>
+        <Typography className={style.title} variant="h1">
           Converter
         </Typography>
         <Currencies />
@@ -37,10 +33,10 @@ const App = () => {
         <Result />
       </div>
       <Footer onClick={openContacts} />
-      <Slider title='Converter' onClose={closeContacts} isOpen={isContactsOpen}>
+      <Slider isOpen={isContactsOpen} onClose={closeContacts} title="Converter">
         <Contact />
       </Slider>
-      <Slider title='Settings' onClose={closeSettings} isOpen={isSettingsOpen}>
+      <Slider isOpen={isSettingsOpen} onClose={closeSettings} title="Settings">
         <Settings />
       </Slider>
     </div>

@@ -1,7 +1,38 @@
-import { atom, selector } from 'recoil';
+import { atom, selector } from 'recoil'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+
+import { currenciesState, formValuesState, resultValuesState, selectedCurrenciesState } from '.';
 import { CurrencyRates, Name } from '../types';
 import { Currency, initCurrenciesSate } from '../utils/constants';
-import { currenciesState, selectedCurrenciesState } from '.';
 
 export type FetchState = {
   isLoading: boolean;
@@ -10,13 +41,13 @@ export type FetchState = {
 
 const initialFetchState: FetchState = { isLoading: false, rates: null };
 
-export const fetchState = atom<FetchState>({ key: 'fetchState', default: initialFetchState });
+export const fetchState = atom<FetchState>({ default: initialFetchState, key: 'fetchState' });
 
 export const updateFetchState = selector({
-  key: 'updateFetchState',
   get: ({ get }) => get(fetchState),
-  set: ({ set, get }, rates2) => {
-    const rates = rates2 as FetchState;
+  key: 'updateFetchState',
+  set: ({ get, set }, payload) => {
+    const rates = payload as FetchState;
     if (!rates.rates) return;
     const resultRates = Object.keys(rates.rates) as Currency[];
     const currencies = get(selectedCurrenciesState);
@@ -30,10 +61,14 @@ export const updateFetchState = selector({
       }
     });
 
+    const values = get(formValuesState);
+
+    set(resultValuesState, values);
+
     set(currenciesState, (prev) =>
       prev.map((item) => ({ ...item, disabled: !resultRates.includes(item.item) }))
     );
 
-    set(fetchState, rates2);
+    set(fetchState, payload);
   },
 });

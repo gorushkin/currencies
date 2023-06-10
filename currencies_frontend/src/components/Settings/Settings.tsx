@@ -1,9 +1,10 @@
-import style from './Settings.module.scss';
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
 import { useRecoilState } from 'recoil';
-import { settingsState } from '../../state';
 
-export type InputSettings = 'text' | 'datePicker';
+import { settingsState } from '../../state';
+import style from './Settings.module.scss';
+
+export type InputSettings = 'datePicker' | 'text';
 
 export const Settings = () => {
   const [settings, setSettings] = useRecoilState(settingsState);
@@ -19,14 +20,14 @@ export const Settings = () => {
         How should input work
       </FormLabel>
       <RadioGroup
-        className={style.radioGroup}
         aria-label='gender'
+        className={style.radioGroup}
         name='gender'
-        value={settings}
         onChange={handleChange}
+        value={settings}
       >
-        <FormControlLabel value='text' control={<Radio />} label='As an usual input' />
-        <FormControlLabel value='datePicker' control={<Radio />} label='As a date picker' />
+        <FormControlLabel control={<Radio />} label='As an usual input' value='text' />
+        <FormControlLabel control={<Radio />} label='As a date picker' value='datePicker' />
       </RadioGroup>
     </FormControl>
   );

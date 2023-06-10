@@ -1,14 +1,22 @@
 import { TextField } from '@mui/material';
 import { useEffect, useRef } from 'react';
+
 import { InputType } from '../../types';
 import style from './Form.module.scss';
 
-export const AmountInput: InputType<string> = ({ value, onChange, isValid, isActive }) => {
+export const AmountInput: InputType<string> = ({
+  isActive,
+  isValid,
+  onChange,
+  value,
+}) => {
   const input = useRef<HTMLInputElement>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const isInputValid = !!e.target.value && !!Number(e.target.value);
-    onChange({ isValid: isInputValid, value: e.target.value, name: 'amount' });
+    onChange({ isValid: isInputValid, name: 'amount', value: e.target.value });
   };
 
   useEffect(() => {
@@ -18,18 +26,23 @@ export const AmountInput: InputType<string> = ({ value, onChange, isValid, isAct
 
   return (
     <TextField
-      label='Amount'
       inputProps={{
-        style: { fontSize: '3rem', textAlign: 'center', padding: '0px 14px', height: '60px' },
+        style: {
+          fontSize: '3rem',
+          height: '60px',
+          padding: '0px 14px',
+          textAlign: 'center',
+        },
       }}
-      size='medium'
       className={style.input}
       error={!isValid}
-      variant='outlined'
-      value={value}
-      onChange={handleChange}
       inputRef={input}
-      type='tel'
+      label="Amount"
+      onChange={handleChange}
+      size="medium"
+      type="tel"
+      value={value}
+      variant="outlined"
     />
   );
 };
