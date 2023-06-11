@@ -6,24 +6,22 @@ import { DESKTOP_QUERY } from '../../utils/constants';
 import { cn } from '../../utils/utils';
 import style from './Slider.module.scss';
 
+type SliderDirection = 'bottom' | 'right';
+
 type SliderProps = {
-  children: React.ReactNode,
-  isOpen: boolean,
-  onClose: () => void,
-  title: string,
+  children: React.ReactNode;
+  direction?: SliderDirection;
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
 };
 
-export const Slider: FC<SliderProps> = ({
-  children,
-  isOpen,
-  onClose,
-  title,
-}) => {
+export const Slider: FC<SliderProps> = ({ children, direction = 'bottom', isOpen, onClose, title }) => {
   const isDesktop = useMediaQuery(DESKTOP_QUERY);
 
   const wrapperStyles = cn(
     style.wrapper,
-    isOpen ? style.wrapperOpen : style.wrapperClosed
+    isOpen ? `${style['wrapperOpen' + direction]}` : `${style['wrapperClosed' + direction]}`
   );
 
   return (
@@ -38,12 +36,7 @@ export const Slider: FC<SliderProps> = ({
           {title}
         </Typography>
         <div className={style.content}>{children}</div>
-        <Button
-          className={style.button}
-          onClick={onClose}
-          type="button"
-          variant="contained"
-        >
+        <Button className={style.button} onClick={onClose} type="button" variant="contained">
           Close
         </Button>
       </div>

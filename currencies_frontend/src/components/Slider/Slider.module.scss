@@ -13,11 +13,23 @@
   align-items: stretch;
 
   &Closed {
-    transform: translateY(100%);
+    &bottom {
+      transform: translateY(100%);
+    }
+
+    &right {
+      transform: translateX(100%);
+    }
   }
 
   &Open {
-    transform: translateY(0);
+    &bottom {
+      transform: translateY(0);
+    }
+
+    &right {
+      transform: translateX(0);
+    }
   }
 }
 
