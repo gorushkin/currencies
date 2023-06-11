@@ -1,3 +1,5 @@
+@import '../../mixins.scss';
+
 .wrapper {
   min-height: 100vh;
   position: relative;
@@ -13,6 +15,10 @@
   max-width: 480px;
   margin: 0 auto;
   padding-bottom: 4rem;
+
+  @include tablet {
+    padding-top: 0.5rem;
+  }
 }
 
 .title {

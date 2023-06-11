@@ -1,0 +1,14 @@
+
+$mobile: 480px;
+$tablet: 980px;
+$desktop: 1200;
+
+@mixin phone {
+  @media (max-width: $mobile) { @content; }
+}
+@mixin tablet {
+  @media (max-width: $tablet) { @content; }
+}
+@mixin for-desktop-up {
+  @media (max-width: $desktop) { @content; }
+}
