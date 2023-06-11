@@ -21,19 +21,18 @@ export const Result = () => {
     const fullPageHeight = document.body.offsetHeight;
     const windowHeight = window.innerHeight;
 
-    const scroll = (position: number) => {
+    const scrollPage = (position: number) => {
       window.scroll(0, position);
       const diff = fullPageHeight - windowHeight - position;
-      if (diff > 0) {
-        setTimeout(() => {
-          scroll(position + step);
-        }, timeout);
-      }
+      if (diff <= 0) return;
+      setTimeout(() => {
+        scrollPage(position + step);
+      }, timeout);
     };
 
     const position = window.pageYOffset;
 
-    scroll(position + step);
+    scrollPage(position + step);
   }, [rates]);
 
   if (!rates) return null;
