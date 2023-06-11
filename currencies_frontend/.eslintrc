@@ -9,6 +9,7 @@
   ],
   "rules": {
     "no-console": "warn",
+    "@typescript-eslint/no-empty-function": "warn",
     "max-len": [
       "warn",
       {
