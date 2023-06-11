@@ -113,7 +113,7 @@ export const DateInput: InputType<string> = ({ isActive, isValid, value }) => {
     };
   }, []);
 
-  const handleMobileDatePickerChange = (date: dayjs.Dayjs | null) => {
+  const handleDatePickerChange = (date: dayjs.Dayjs | null) => {
     if (!date) return;
     const isValid = date.isValid();
     const value = date.format(DATE_FORMAT);
@@ -228,7 +228,7 @@ export const DateInput: InputType<string> = ({ isActive, isValid, value }) => {
         format={DATE_FORMAT}
         inputRef={input}
         label="Date"
-        onChange={handleMobileDatePickerChange}
+        onChange={handleDatePickerChange}
         value={dayjs(value, DATE_FORMAT)}
       />
     );
@@ -242,6 +242,7 @@ export const DateInput: InputType<string> = ({ isActive, isValid, value }) => {
         format={DATE_FORMAT}
         inputRef={input}
         label="Date"
+        onChange={handleDatePickerChange}
         value={dayjs(value, DATE_FORMAT)}
       />
     );
