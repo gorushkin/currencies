@@ -149,13 +149,16 @@ export const DateInput: InputType<string> = ({ isActive, isValid, value }) => {
     return () => document.removeEventListener('wheel', handleWheel);
   }, [isOver, selectedPart, setValues, updateDate, values.date.value]);
 
-  const handleChangePosition = useCallback((code: string) => {
-    const currentIndex = selectedParts.indexOf(selectedPart);
-    const direction = code === Keys.ArrowLeft ? -1 : 1;
-    const nextPreIndex = direction + currentIndex;
-    const nextIndex = direction < 0 ? Math.max(0, nextPreIndex) : Math.min(selectedParts.length - 1, nextPreIndex);
-    setSelectedPart(selectedParts[nextIndex]);
-  }, []);
+  const handleChangePosition = useCallback(
+    (code: string) => {
+      const currentIndex = selectedParts.indexOf(selectedPart);
+      const direction = code === Keys.ArrowLeft ? -1 : 1;
+      const nextPreIndex = direction + currentIndex;
+      const nextIndex = direction < 0 ? Math.max(0, nextPreIndex) : Math.min(selectedParts.length - 1, nextPreIndex);
+      setSelectedPart(selectedParts[nextIndex]);
+    },
+    [selectedPart]
+  );
 
   useEffect(() => {
     if (!isInputActive) return;
@@ -177,7 +180,7 @@ export const DateInput: InputType<string> = ({ isActive, isValid, value }) => {
     document.addEventListener('keydown', handlePressButton);
 
     return () => document.removeEventListener('keydown', handlePressButton);
-  }, [isInputActive, selectedPart, updateDate]);
+  }, [handleChangePosition, isInputActive, selectedPart, updateDate]);
 
   useEffect(() => {
     if (!input.current || !isActive) return;
