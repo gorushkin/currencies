@@ -9,6 +9,19 @@ import style from './Result.module.scss';
 const step = 10;
 const timeout = 2.5;
 
+const updateScroll = (position: number, fullPageHeight: number, windowHeight: number) => {
+  const scrollPage = (position: number) => {
+    window.scroll(0, position);
+    const diff = fullPageHeight - windowHeight - position;
+    if (diff <= 0) return;
+    setTimeout(() => {
+      scrollPage(position + step);
+    }, timeout);
+  };
+
+  scrollPage(position);
+};
+
 export const Result = () => {
   const currencies = useRecoilValue(selectedCurrenciesState);
   const resultValues = useRecoilValue(resultValuesState);
@@ -20,19 +33,9 @@ export const Result = () => {
 
     const fullPageHeight = document.body.offsetHeight;
     const windowHeight = window.innerHeight;
-
-    const scrollPage = (position: number) => {
-      window.scroll(0, position);
-      const diff = fullPageHeight - windowHeight - position;
-      if (diff <= 0) return;
-      setTimeout(() => {
-        scrollPage(position + step);
-      }, timeout);
-    };
-
     const position = window.pageYOffset;
 
-    scrollPage(position + step);
+    updateScroll(position + step, fullPageHeight, windowHeight);
   }, [rates]);
 
   if (!rates) return null;
