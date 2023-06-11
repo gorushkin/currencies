@@ -7,6 +7,7 @@ import { fetchState, updateFetchState } from '../../state/fetchState';
 import { formValuesState } from '../../state/formValues';
 import { InputName } from '../../types';
 import { AmountInput } from './AmountInput';
+import { CurrentDateButton } from './CurrentDateButton';
 import { DateInput } from './DateInput';
 import style from './Form.module.scss';
 
@@ -51,6 +52,7 @@ export const Form = () => {
           onClick={setActiveInput}
           value={date.value}
         />
+        <CurrentDateButton />
       </div>
       <div className={style.wrapper}>
         <AmountInput

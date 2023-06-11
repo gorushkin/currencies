@@ -33,7 +33,7 @@ export const Result = () => {
 
     const fullPageHeight = document.body.offsetHeight;
     const windowHeight = window.innerHeight;
-    const position = window.pageYOffset;
+    const position = window.screenY;
 
     updateScroll(position + step, fullPageHeight, windowHeight);
   }, [rates]);
