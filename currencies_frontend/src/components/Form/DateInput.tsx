@@ -97,7 +97,8 @@ export const DateInput: InputType<string> = ({ isActive, isValid, value }) => {
   const [isOver, setIsOver] = useState(false);
 
   useEffect(() => {
-    if (!input.current) return;
+    const inputCopy = input.current;
+    if (!inputCopy) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       setIsOver((prev) => !prev);
@@ -107,9 +108,9 @@ export const DateInput: InputType<string> = ({ isActive, isValid, value }) => {
     input.current.addEventListener('mouseleave', handleMouseMove);
 
     return () => {
-      if (!input.current) return;
-      input.current.removeEventListener('mouseover', handleMouseMove);
-      input.current.removeEventListener('mouseleave', handleMouseMove);
+      if (!inputCopy) return;
+      inputCopy.removeEventListener('mouseover', handleMouseMove);
+      inputCopy.removeEventListener('mouseleave', handleMouseMove);
     };
   }, []);
 
